@@ -22,6 +22,12 @@ _.extend(Chapter.prototype, {
         return path.resolve(this.story.root(), 'chapters', sutils.json.ensure_suffix(this.name));
     },
 
+    content_path: function(){
+        var content_path = sutils.json.remove_suffix(this.full_path());
+        content_path +=  '.md';
+        return content_path;
+    },
+
     update: function (data) {
         _.extend(this, data);
     },
@@ -36,9 +42,8 @@ _.extend(Chapter.prototype, {
 
         this.library().models.chapters.put(full_path, this.toJSON(), function (err) {
             if (err) return callback(err);
-            var content_path = sutils.json.remove_suffix(full_path);
-            content_path +=  '.md';
-            self.library().models.chapters.put_text(content_path, self.content, function(err){
+
+            self.library().models.chapters.put_text(self.content_path(), self.content, function(err){
                 callback(err, self);
             });
         });
@@ -48,6 +53,18 @@ _.extend(Chapter.prototype, {
         return _.extend(_.pick(this, 'title', 'name'),
             {story: this.story.name}
         );
+    },
+
+    destroy: function(){
+
+        try {
+            fs.unlinkSync(this.content_path());
+        } catch(err) {} // don't care if file doesn't exist.
+
+        try {
+            fs.unlinkSync(this.full_path());
+        } catch (err) {} // don't care if file doesn't exist.
+
     }
 
 })
