@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--[if gte IE 9]>
+    <style type="text/css">
+        .gradient {
+            filter: none;
+        }
+    </style>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/css/th/bootstrap.css" rel="stylesheet">
+    <link href="/css/th/layout.css" rel="stylesheet">
+    <link href="/css/th/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/th/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <%- js_model.render('head') %>
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/th/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/th/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/th/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/th/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/th/ico/favicon.png">
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Teller</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/Stories">Stories</a></li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+
+<div class="container">
+
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav hidden-phone">
+                <%- helpers.sidebar_menu() %>
+            </div>
+        </div>
+        <div class="span9">
+            <div id="main">
+                <%- body %>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="well sidebar-nav visible-phone">
+    <%- helpers.sidebar_menu() %>
+</div>
+
+<hr>
+
+<footer>
+    <p>&copy; Wonderland Labs 2014</p>
+</footer>
+
+</div>
+<!--/.fluid-container-->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<%- js_model.render('foot') %>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+    "name": "teller_home",
+    "static": {
+        "/img": "/img/th",
+        "/css": "/css/th",
+        "/js": "/js/th",
+        "/fonts": "/fonts/th"
+    },
+    "javascript": [
+        {
+          "url": "/js/th/vendor/jquery-1.10.2.min.js",
+            "context": "head"
+        },
+        {
+            "url": "/js/th/vendor/typeahead.min.js",
+            "context": "head",
+            "requires": ["jquery"]
+        },
+        {
+            "url": "/js/th/vendor/bootstrap.js",
+            "context": "foot"
+        }
+    ]
+}

@@ -10,12 +10,17 @@ var DEBUG = false;
  * A generic file retrieval model.
  * @param library {Library}
  * @param subdir {String} a path, relative to the library.file_root, where resources are found.
+ * @param params {Object} an optional parameter that extneds the base class.
  *
  * @constructor
  */
-function File_Model(library, subdir) {
+function File_Model(library, subdir, params) {
+    console.log('making file model with library %s, subdir %s', util.inspect(library), subdir);
     this.library = library;
     this.subdir = subdir;
+    if (params) {
+        _.extend(this, params);
+    }
 }
 
 _.extend(File_Model.prototype, {
@@ -23,10 +28,23 @@ _.extend(File_Model.prototype, {
     full_path: function (name, ensure) {
         if (DEBUG)  console.log('making path %s : %s : %s', this.library.file_path, this.subdir, name);
         var full_path = path.resolve(this.library.file_path, this.subdir, name);
-        if (ensure){
+        if (ensure) {
             full_path = sutils.json.ensure_suffix(full_path);
         }
         return full_path;
+    },
+
+    files: function (file_path, callback) {
+        if (_.isFunction(file_path)) {
+            callback = file_path;
+            file_path = '';
+        }
+
+        if (DEBUG) console.log('getting files %s : %s: %s', this.library.file_path, this.subdir, file_path);
+        var dir = path.resolve.apply(path, _.compact([this.library.file_path, this.subdir, file_path]));
+
+        if (DEBUG) console.log('... %s', dir);
+        fs.readdir(dir, callback);
     },
 
     /**
@@ -50,18 +68,24 @@ _.extend(File_Model.prototype, {
             if (!e) {
                 callback(new Error('cannot find ' + file_path));
             } else {
+                var sent = false;
                 fs.readFile(file_path, function (err, data) {
+                    if (err) return callback(err);
                     data = data.toString();
+                    var err2 = null;
+                    var obj = null;
                     try {
-                        var obj = JSON.parse(data);
-                        callback(null, obj);
-                    } catch (err) {
-                        callback(err);
+                         obj = JSON.parse(data);
+                    } catch (e) {
+                        obj = null;
+                        err2 = e;
                     }
+                    callback(err2, obj);
                 })
             }
         })
     },
+
 
     put: function (name, data, callback) {
         var full_path = this.full_path(name, true);

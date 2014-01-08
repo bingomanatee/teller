@@ -1,0 +1,12 @@
+<h1>Stories</h1>
+
+<ul>
+<% stories.forEach(function(story){ %>
+<li>
+   <a href="/stories/<%= story.name %>"><%= story.title %></a>
+</li>
+
+<% }) %>
+</ul>
+
+        <h2>Add Story</h2>

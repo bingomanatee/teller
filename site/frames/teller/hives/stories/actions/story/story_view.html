@@ -1,0 +1,13 @@
+<ol class="breadcrumb">
+    <li><a href="/stories">Stories</a></li>
+    <li class="active"><%= story.title %></li>
+</ol>
+
+<h1><%= story.title %>
+    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>/edit">Edit</a></h1>
+
+ <ol>
+     <% chapters.forEach(function(c){ %>
+     <li><%= c.title %></li>
+     <% }) %>
+ </ol>

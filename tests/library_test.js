@@ -11,7 +11,7 @@ tap.test('library', function (test) {
 
     // loading an existing story from definition
 
-    library.get_story('alpha', function (err, s) {
+    library.models.stories.get_story('alpha', function (err, s) {
         test.ok(s, 'story returned');
         test.equal(s.title, 'The First Story', 'got story data');
         test.equal(s.name, 'alpha', 'story has name');

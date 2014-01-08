@@ -3,14 +3,22 @@ var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var sutils = require('./story_utils');
+var File_Model = require('./File_Model');
+var Gate = require('gate');
 
+var cid = 0;
 function Chapter(name, story, data) {
+    this.id = ++cid;
+    console.log('new chapter %s # %s', name, this.id);
     this.name = sutils.json.remove_suffix(name);
+    this.library = story.library;
     this.story = story;
     this.content = '(content pending)';
-    this.title = name.replace(/_/g, ' ');
+    this.title = name.replace(/[_]+/g, ' ');
     _.extend(this, data);
 }
+
+var chapters = 0;
 
 _.extend(Chapter.prototype, {
 
@@ -67,6 +75,60 @@ _.extend(Chapter.prototype, {
 
     }
 
-})
+});
+
+Chapter.file_model = function(library){
+    return new File_Model(library, '', { // the subdirectory is different for each chapter.
+        chapters: function(story, callback){
+            var story_name =  story.name;
+            var subdir = this.chapter_dir(story_name);
+
+            var self = this;
+
+            this.files(subdir, function(err, chapters){
+                var chapter_json_files = sutils.json.filter_file_list(chapters);
+                console.log('chapter files: %s', chapter_json_files.join('; '));
+                var out = {};
+
+                var gate = Gate.create();
+
+                chapter_json_files.forEach(function(file){
+                   var latch = gate.latch();
+
+                    self.get_chapter( story, file, function(err, chapter){
+                        out[file] = chapter;
+                        latch();
+                    });
+                });
+
+                gate.await(function(){
+                    console.log('done loading chapters');
+                    callback(null, out);
+                });
+            });
+
+        },
+
+        get_chapter: function(story, file, callback){
+            var self = this;
+           var lc =  ++chapters;
+            console.log('# %s: getting chapter %s', lc, file);
+            var got = false;
+            self.get(this.chapter_dir(story) + '/' + file, function(err, data){
+                if (got) throw new Error('return twice for #' + lc);
+                console.log('# %s: got data %s for file', lc, util.inspect(data), file);
+                got = true;
+                callback(null, new Chapter(file, story, data));
+                console.log('# %s: end new chapter %s', lc, file);
+            })
+        },
+
+        chapter_dir: function(story){
+            var story_name = (_.isString(story)) ? story : story.name;
+            story_name = sutils.json.remove_suffix(story_name);
+            return 'stories/' + story_name + '/chapters'
+        }
+    });
+}
 
 module.exports = Chapter;

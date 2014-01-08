@@ -4,6 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var Chapter = require('./Chapter');
 var sutils = require('./story_utils.js');
+var Gate = require('gate');
+var File_Model = require('./File_Model');
 
 function Story(name, library, data) {
     this.name = sutils.json.remove_suffix(name);
@@ -21,8 +23,27 @@ _.extend(Story.prototype, {
         return path.resolve(this.library.file_path, 'stories', sutils.json.ensure_suffix(this.name));
     },
 
-    root: function(){
-       return sutils.json.remove_suffix(this.full_path());
+    root: function () {
+        return sutils.json.remove_suffix(this.full_path());
+    },
+
+    get_chapters: function (callback) {
+        this.library.models.chapters.chapters(this, callback);
+    },
+
+    update: function(data, callback){
+        if (data.hasOwnProperty('title') && data.title){
+            this.title = data.title;
+        }
+        if (data.hasOwnProperty('summary') && data.summary){
+            this.summary = data.summary;
+        }
+        if (data.hasOwnProperty('start_chapter') && data.start_chapter){
+            this.start_chapter = data.start_chapter;
+        }
+        //@TODO: validate existence of chapter
+
+        this.library.models.stories.update(this, callback);
     },
 
     /**
@@ -46,5 +67,81 @@ _.extend(Story.prototype, {
     }
 
 });
+
+Story.file_model = function (library) {
+    return new File_Model(library, 'stories', {
+
+        update: function(story, callback){
+            var data = _.pick(story, 'name', 'summary', 'start_chapter', 'title');
+
+            this.put(story.name, data, function(err, saved){
+                if (err){
+                    return callback(err);
+                } else {
+                    return callback(null, story);
+                }
+            })
+        },
+
+        get_story: function (name, callback) {
+
+            if (library.stories[name]) {
+                return callback(null, library.stories[name]);
+            }
+
+            if (!(name && (_.isString(name)))) {
+                throw new Error('bad story name');
+            }
+
+            this.get(name, function (err, data) {
+
+                if (err) {
+                    callback(err);
+                } else {
+                    var story = new Story(name, library, data);
+                    callback(null, story);
+                }
+
+            });
+
+        },
+
+        stories: function (callback) {
+            var self = this;
+            this.files(function (err, files) {
+                if (err) {
+                    callback(err);
+                } else {
+                    var gate = Gate.create();
+
+                    var out = {};
+
+                    /**
+                     *   this folder includes both the root json file
+                     *   for a given story; the code below selects only the root JSON files.
+                     */
+
+                    files = sutils.json.filter_file_list(files);
+
+                    files.forEach(function (file) {
+
+                        var latch = gate.latch();
+
+                        self.get_story(file, function (err, story) {
+                            out[file] = story;
+                            latch();
+                        })
+                    });
+
+                    gate.await(function () {
+                        console.log('stories: %s', util.inspect(out));
+                        callback(null, out);
+                    })
+                }
+            }.bind(this));
+        }
+
+    });
+};
 
 module.exports = Story;

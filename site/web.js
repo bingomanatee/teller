@@ -37,9 +37,10 @@ server.on('close', function () {
 
 var log_file = path.resolve(__dirname, 'actions.log');
 
+var frame_path = path.resolve(__dirname, 'frames');
+console.log('loading %s', frame_path);
 server.listen(app.get('port'), function () {
-    var apiary = mvc.Apiary({log_file: log_file, action_handler_failsafe_time: 3000}, __dirname + '/frames');
-    apiary._config.setAll(require('./site_identity.json'));
+    var apiary = mvc.Apiary({log_file: log_file, action_handler_failsafe_time: 3000}, frame_path);
     apiary.set_config('god_mode', true);
     console.log('initializing apiary for port %s', PORT);
     apiary.init(function () {

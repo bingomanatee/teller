@@ -1,0 +1,7 @@
+{
+    "layout_name": "teller_home",
+    "routes": {
+        "get": "/stories/:name/edit",
+        "post": "/stories/:name/edit"
+    }
+}
