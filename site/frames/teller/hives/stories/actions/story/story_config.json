@@ -1,6 +1,6 @@
 {
     "layout_name": "teller_home",
     "routes": {
-        "get": "/stories/:name"
+        "get": ["/stories/:name", "/stories/:name/chapter/:chapter"]
     }
 }

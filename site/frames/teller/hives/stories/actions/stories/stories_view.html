@@ -3,7 +3,7 @@
 <ul>
 <% stories.forEach(function(story){ %>
 <li>
-   <a href="/stories/<%= story.name %>"><%= story.title %></a>
+   <a href="/stories/<%= story.name %>"><%= story.title %></a>: <%= story.summary %>
 </li>
 
 <% }) %>

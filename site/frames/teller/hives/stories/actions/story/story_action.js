@@ -26,6 +26,12 @@ module.exports = {
                     } else {
                         ctx.$out.set('chapters', _.values(chapters));
                         console.log('done with input');
+
+                        var chapter_name = ctx.chapter ? ctx.chapter: story.start_chapter? story.start_chapter: '';
+
+                        ctx.$out.set('chapter', chapter_name ? _.find(chapters, function(c){
+                            return c.name == chapter_name;
+                        }) : null);
                         done();
                     }
                 })
