@@ -7,3 +7,5 @@
 /site/node_modules/
 
 /site/actions.log
+
+/site/passport_config.json

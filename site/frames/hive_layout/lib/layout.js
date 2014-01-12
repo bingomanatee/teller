@@ -1,8 +1,14 @@
 var Component = require('hive-component');
 var path = require('path');
-var _DEBUG = false;
+var _DEBUG = true;
+var util = require('util');
+
+var loads = 0;
 
 module.exports = function (apiary, callback){
+
+    console.log('loading layout: %s', loads++);
+    if (loads > 1) throw new Error('multiple loads of layout');
 
 	var _mixins = {
 
@@ -50,6 +56,7 @@ module.exports = function (apiary, callback){
 				console.log('putting a layout in the model');
 			}
 			layout_model.put(this);
+            if (_DEBUG) console.log('layouts: %s', util.inspect(layout_model.all().records()));
 			cb();
 		}
 
