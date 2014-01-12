@@ -1,0 +1,124 @@
+<ol class="breadcrumb">
+    <li><a href="/stories">Stories</a></li>
+    <li><a href="/stories/<%= story.name %>"><%= story.title %></a></li>
+    <li><a href="/stories/<%= story.name %>/chapter/<%= chapter.name %>"><%= chapter.title %></a></li>
+    <li class="active">Link</li>
+</ol>
+
+<h1><%= story.title %>: Link Chapter &quot;<%= chapter.title %>&quot;</h1>
+
+<p><%- chapter.summary %></p>
+
+<h2>Link to Chapter:</h2>
+
+<form class="form-horizontal" method="post"
+      id="link-form"
+      action="/stories/<%= story.name %>/chapter/<%= chapter.name %>/link">
+    <input type="hidden" name="story" value="<%= story.name %>"/>
+    <input type="hidden" name="from_chapter" value="<%= chapter.name %>"/>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Link Type</label>
+
+        <div class="col-sm-10">
+
+            <div class="radio">
+                <label>
+                    <input type="radio" name="link_type" value="continue"
+                    <%= link_type == 'continue' ? 'checked' : '' %>
+                    id="link-type-continue"/> Continue
+                </label>
+            </div>
+
+            <div class="radio">
+                <label>
+                    <input type="radio" name="link_type" value="choice"
+                    <%= link_type == 'choice' ? 'choice' : '' %>
+                    id="link-type-choice"/> Choice
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Prompt</label>
+
+        <div class="col-sm-10">
+            <textarea name="prompt" class="form-control" rows="3" placeholder="Prompt"></textarea>
+            <p>
+                <small>If no prompt is present, the prompt will be the summary of the other chapter</small>
+            </p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" placeholder="Name (optional)"/>
+            <p>
+                <small>If no name is present, the link name will be a number.</small>
+            </p>
+        </div>
+    </div>
+
+    <div style="max-height: 300px; overflow: scroll">
+        <table class="table table-bordered">
+            <tr>
+                <th colspan="2">Chapter</th>
+                <th>Summary</th>
+                <th>Existing Links</th>
+            </tr>
+            <tbody>
+
+            <% _.forEach(chapters, function(chapter){ %>
+            <tr>
+                <td><input type="radio" name="to_chapter" value="<%= chapter.name %>" id="<%= chapter.name %>_radio"/>
+                </td>
+                <td><label for="<%= chapter.name %>_radio"><b><%= chapter.title %></b></label></td>
+                <td>
+                    <%= chapter.summary %>
+                </td>
+                <td>
+                    <% if (chapter.links.length) {%>
+                    <ul>
+                        <% chapter.links.forEach(function(link){ %>
+                        <li>
+                            <% if (link.to_chapter == chapter.name ) { %>
+                            <%= link.from_chapter_obj.title %>
+                            <% } else { %>
+                            <%= link.to_chapter_obj.title %>
+                            <% } %>
+                            (<%= link.link_type %>)
+                        </li>
+                        <% }) %>
+                    </ul>
+                    <% } %>
+
+                </td>
+            </tr>
+            <% }) %>
+            </tbody>
+
+        </table>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Link</button>
+    <a class="btn btn-default" href="/stories/<%= story.name %>/chapter/<%= chapter.name %>">Cancel</a>
+</form>
+
+<script language="javascript">
+    $("#link-form").submit(function (event) {
+        var chapter = '';
+        _.each($('#link-form').serializeArray(), function (data) {
+            if (data.name == 'to_chapter') {
+                chapter = data.value;
+            }
+        });
+
+        if (!chapter) {
+            event.preventDefault();
+            alert('please select a chapter to link to.')
+        }
+    });
+</script>

@@ -1,0 +1,14 @@
+{
+    "routes": {
+        "post": ["/stories/:story/chapter/:chapter/link"],
+        "get": ["/stories/:story/chapter/:chapter/link",
+            "/stories/:story/chapter/:chapter/link/:link_type"
+        ]
+    },
+    "javascript": [
+        {
+            "url": "/js/th/vendor/underscore.min.js",
+            "context": "foot"
+        }
+    ]
+}

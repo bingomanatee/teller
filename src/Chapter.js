@@ -5,6 +5,7 @@ var path = require('path');
 var sutils = require('./story_utils');
 var File_Model = require('./File_Model');
 var Gate = require('gate');
+var DEBUG = false;
 
 var cid = 0;
 function Chapter(name, story, data) {
@@ -13,7 +14,7 @@ function Chapter(name, story, data) {
         throw new Error(util.format('bad story %s passed to Chapter', util.inspect(story)));
     }
     this.id = ++cid;
-    console.log('new chapter %s # %s', name, this.id);
+   if (DEBUG) console.log('new chapter %s # %s', name, this.id);
     this.name = sutils.json.remove_suffix(name);
     this.library = story.library;
     this.story = story;
@@ -69,7 +70,7 @@ _.extend(Chapter.prototype, {
     },
 
     toJSON: function () {
-        return _.pick(this, 'title', 'name');
+        return _.pick(this, 'title', 'name', 'summary');
     },
 
     destroy: function(){
@@ -111,7 +112,7 @@ Chapter.file_model = function(library){
                 });
 
                 gate.await(function(){
-                    console.log('done loading chapters');
+                    if (DEBUG)   console.log('done loading chapters');
                     callback(null, out);
                 });
             });
@@ -121,14 +122,14 @@ Chapter.file_model = function(library){
         get_chapter: function(story, file, callback){
             var self = this;
            var lc =  ++chapters;
-            console.log('# %s: getting chapter %s', lc, file);
+            if (DEBUG)  console.log('# %s: getting chapter %s', lc, file);
             var got = false;
             self.get(this.chapter_dir(story) + '/' + file, function(err, data){
                 if (got) throw new Error('return twice for #' + lc);
-                console.log('# %s: got data %s for file', lc, util.inspect(data), file);
+                if (DEBUG)   console.log('# %s: got data %s for file', lc, util.inspect(data), file);
                 got = true;
                 callback(null, new Chapter(file, story, data));
-                console.log('# %s: end new chapter %s', lc, file);
+                if (DEBUG)  console.log('# %s: end new chapter %s', lc, file);
             })
         },
 

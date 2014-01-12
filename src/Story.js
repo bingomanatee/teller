@@ -19,6 +19,23 @@ function Story(name, library, data) {
 
 _.extend(Story.prototype, {
 
+    thread: function (start_chapter, callback) {
+        if (_.isFunction(start_chapter)) {
+            callback = start_chapter;
+            start_chapter = this.start_chapter
+        }
+
+        if (!start_chapter) {
+            return callback(null, []);
+        } else {
+            this.library.models.links.thread(this, start_chapter, callback);
+        }
+    },
+
+    get_chapter: function (name, callback) {
+        return this.library.models.chapters.get_chapter(this, name, callback);
+    },
+
     full_path: function () {
         return path.resolve(this.library.file_path, 'stories', sutils.json.ensure_suffix(this.name));
     },
@@ -31,14 +48,14 @@ _.extend(Story.prototype, {
         this.library.models.chapters.chapters(this, callback);
     },
 
-    update: function(data, callback){
-        if (data.hasOwnProperty('title') && data.title){
+    update: function (data, callback) {
+        if (data.hasOwnProperty('title') && data.title) {
             this.title = data.title;
         }
-        if (data.hasOwnProperty('summary') && data.summary){
+        if (data.hasOwnProperty('summary') && data.summary) {
             this.summary = data.summary;
         }
-        if (data.hasOwnProperty('start_chapter') && data.start_chapter){
+        if (data.hasOwnProperty('start_chapter') && data.start_chapter) {
             this.start_chapter = data.start_chapter;
         }
         //@TODO: validate existence of chapter
@@ -71,11 +88,11 @@ _.extend(Story.prototype, {
 Story.file_model = function (library) {
     return new File_Model(library, 'stories', {
 
-        update: function(story, callback){
+        update: function (story, callback) {
             var data = _.pick(story, 'name', 'summary', 'start_chapter', 'title');
 
-            this.put(story.name, data, function(err, saved){
-                if (err){
+            this.put(story.name, data, function (err, saved) {
+                if (err) {
                     return callback(err);
                 } else {
                     return callback(null, story);

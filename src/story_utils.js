@@ -41,6 +41,9 @@ module.exports = {
          * @returns {Array(string)}
          */
         filter_file_list: function(list){
+            if (!_.isArray(list)){
+                throw new Error('non array passed to filter_file_list');
+            }
             return _.filter(_.values(list), function(file){
                 return jre.test(file);
             })
