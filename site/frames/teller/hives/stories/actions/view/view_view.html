@@ -22,4 +22,6 @@
 <% } else { %>
         <a class="btn btn-default" href="/stories/<%= story.name %>/chapter/<%= chapter.name %>/add_next">Add Next</a>
 <% } %>
+<% } else { // no chapter %>
+        <a class="btn btn-default" href="/stories/<%= story.name %>/add_chapter">Add Chapter</a>
 <% } %>

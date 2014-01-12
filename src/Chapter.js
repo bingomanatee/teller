@@ -8,6 +8,10 @@ var Gate = require('gate');
 
 var cid = 0;
 function Chapter(name, story, data) {
+
+    if (!(_.isObject(story) && story.root)){
+        throw new Error(util.format('bad story %s passed to Chapter', util.inspect(story)));
+    }
     this.id = ++cid;
     console.log('new chapter %s # %s', name, this.id);
     this.name = sutils.json.remove_suffix(name);
@@ -16,14 +20,21 @@ function Chapter(name, story, data) {
     this.content = '(content pending)';
     this.title = name.replace(/[_]+/g, ' ');
     _.extend(this, data);
+    this.story = story; // ensuring no inadvertent overwrite of story
 }
 
 var chapters = 0;
 
 _.extend(Chapter.prototype, {
 
-    library: function () {
-        return this.story.library
+    load_content: function(callback){
+       fs.readFile(this.content_path(), 'utf8', function(err, content){
+           if (err){
+               return callback(err);
+           }
+           this.content = content;
+           callback(null, this);
+       }.bind(this))
     },
 
     full_path: function () {
@@ -48,19 +59,17 @@ _.extend(Chapter.prototype, {
             return callback(err);
         }
 
-        this.library().models.chapters.put(full_path, this.toJSON(), function (err) {
+        this.library.models.chapters.put(full_path, this.toJSON(), function (err) {
             if (err) return callback(err);
 
-            self.library().models.chapters.put_text(self.content_path(), self.content, function(err){
+            self.library.models.chapters.put_text(self.content_path(), self.content, function(err){
                 callback(err, self);
             });
         });
     },
 
     toJSON: function () {
-        return _.extend(_.pick(this, 'title', 'name'),
-            {story: this.story.name}
-        );
+        return _.pick(this, 'title', 'name');
     },
 
     destroy: function(){
@@ -95,7 +104,7 @@ Chapter.file_model = function(library){
                 chapter_json_files.forEach(function(file){
                    var latch = gate.latch();
 
-                    self.get_chapter( story, file, function(err, chapter){
+                    self.get_chapter(story, file, function(err, chapter){
                         out[file] = chapter;
                         latch();
                     });

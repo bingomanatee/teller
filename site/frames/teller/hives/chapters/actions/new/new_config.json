@@ -1,0 +1,13 @@
+{
+
+    "routes": {
+        "get": [
+            "/stories/:story/chapter/:chapter/add_next",
+            "/stories/:story/chapter/0/:add_chapter"
+        ],
+
+        "post": [
+            "/stories/:story/chapter/0/:add_chapter"
+        ]
+    }
+}

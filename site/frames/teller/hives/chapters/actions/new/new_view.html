@@ -1,0 +1,56 @@
+<ol class="breadcrumb">
+    <li><a href="/stories">Stories</a></li>
+    <li><%= story.title %></li>
+    <li class="active">Add Chapter</li>
+</ol>
+
+<h1><%= story.title %>
+    <a class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>">View</a></h1>
+
+<h2>Add Chapter</h2>
+<% if (from_chapter) { %>
+<p>will appear after chapter &quot;<%= from_chapter %>&quot;</p>
+<% } %>
+<form class="form-horizontal" role="form" action="/stories/<%= story.name %>/chapter/0/add_chapter" method="post">
+    <input type="hidden" name="story" value="<%= story.name %>"/>
+    <input type="hidden" name="from_chapter" value="<%= from_chapter %>"/>
+
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+            <p><small>filename - no spaces, special characters</small></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title" class="col-sm-2 control-label">Title</label>
+
+        <div class="col-sm-10">
+            <input type="text" name="title" class="form-control" id="title" placeholder="Title"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="summary" class="col-sm-2 control-label">Summary</label>
+
+        <div class="col-sm-10">
+            <textarea class="form-control" id="summary" rows="4" placeholder="Summary" name="summary"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label">Content</label>
+
+        <div class="col-sm-10">
+            <textarea class="form-control" id="content" rows="8" placeholder="Start Chapter" name="content">
+            </textarea>
+            <p>
+                <small>Markdown content</small>
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Create Chapter</button>
+        </div>
+    </div>
+</form>

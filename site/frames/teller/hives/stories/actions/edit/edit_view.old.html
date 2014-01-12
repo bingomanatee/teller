@@ -42,16 +42,20 @@
 </form>
 
 <script language="javascript">
-    setTimeout(function(){
-        $(function(){
+    setTimeout(function () {
+        $(function () {
             $('#start-chapter').typeahead({
                 name: 'start_chapter',
-                local: [<% chapters.forEach(function(c){ %>
+                local: [ < % chapters.forEach(function (c) { %>
                 '<%= c.name %>',
-                <%    }) %> ]
+                <% }) % >
+            ]
         });
     })
-    }, 1000);
+    },
+    1000
+    )
+    ;
 
 
 </script>
