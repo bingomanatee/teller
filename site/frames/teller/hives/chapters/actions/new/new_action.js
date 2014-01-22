@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var _chapter_url = _.template("/stories/<%= story.name %>/chapter/<%= name %>");
+var _chapter_url = _.template("/stories/<%= story %>/chapter/<%= _id %>");
 
 module.exports = {
 
@@ -12,14 +12,14 @@ module.exports = {
     },
 
     on_input: function (ctx, done) {
-        var story_name = ctx.story;
-        var library = this.model('teller_library');
+        var story_id = ctx.story;
+        var story_model = this.model('teller-story');
 
-        console.log('story name: %s, from = ', story_name, ctx.chapter);
+        console.log('story name: %s, from = ', story_id, ctx.chapter);
 
         ctx.$out.set('from_chapter', ctx.chapter || '');
 
-        library.models.stories.get_story(story_name, function (err, story) {
+        story_model.get(story_id, function (err, story) {
             if (err) {
                 done(err);
             } else if (story) {
@@ -27,31 +27,31 @@ module.exports = {
                 ctx.$out.set('story', story);
                 done();
             } else {
-                done('cannot find story ' + story_name);
+                done('cannot find story ' + story_id);
             }
         })
     },
 
     on_post_process: function (ctx, done) {
-        var library = this.model('teller_library');
-        var data = _.pick(ctx, 'name', 'content', 'summary', 'content');
-        var chapter = library.new_chapter(ctx.name, ctx.story, data);
+        var chapter_model = this.model('teller-chapter');
+
+        var data = _.pick(ctx, 'name', 'content', 'story', 'summary');
         console.log('making new chapter with from = %s', ctx.from_chapter);
-        chapter.save(function (err, chapter) {
+        chapter_model.put(data, function (err, chapter) {
                 ctx.chapter = chapter;
                 if (err) {
                     done(err);
                 } else {
                     if (ctx.from_chapter) {
-                        library.models.links.find_links(ctx.story, ctx.from_chapter, chapter.name, 'continue', function (err, old_links) {
-                            old_links.forEach(function(link){
-                               link.to_chapter = chapter.name;
-                                link.save(_.identity);
-                            });
-                            library.link_chapters(ctx.story, ctx.from_chapter, chapter, '', 'continue', {}, done);
+                        chapter_model.get(ctx.from_chapter, function(err, f_chapter){
+                            if (f_chapter){
+                                f_chapter.next_chapter = chapter._id;
+                                f_chapter.save(done)
+                            } else {
+                                done();
+                            }
                         });
-                    }
-                    else {
+                    } else {
                         done();
                     }
                 }

@@ -1,6 +1,5 @@
 var util = require('util');
 var _ = require('underscore');
-var fs = require('fs');
 var path = require('path');
 var sutils = require('./story_utils');
 var File_Model = require('./File_Model');
@@ -154,7 +153,7 @@ Link.file_model = function (library) {
                 full_path = this.full_path(root_dir + '/' + index + '.json');
                 console.log('testing %s', full_path);
                 console.log('testing %s', full_path);
-            } while (fs.existsSync(full_path));
+            } while (this.exists(full_path));
             console.log('... cannot find %s', full_path);
             return index + '';
         },

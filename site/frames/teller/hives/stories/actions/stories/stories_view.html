@@ -1,12 +1,18 @@
 <h1>Stories</h1>
 
 <ul>
-<% stories.forEach(function(story){ %>
-<li>
-   <a href="/stories/<%= story.name %>"><%= story.title %></a>: <%= story.summary %>
-</li>
+    <% stories.forEach(function(story){ %>
+    <li>
+        <a href="/stories/<%= story._id %>"><%= story.title %></a>:
+        <%= story.summary %>
+    </li>
 
-<% }) %>
+    <% }) %>
 </ul>
 
-        <h2>Add Story</h2>
+<% if (create_story){ %>
+<h2>Create Story</h2>
+<p>
+    <a href="/stories/0/new" class="btn btn-primary btn-large">Create a New Story</a>
+</p>
+<% } %>

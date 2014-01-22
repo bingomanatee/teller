@@ -1,6 +1,5 @@
 var util = require('util');
 var _ = require('underscore');
-var fs = require('fs');
 var path = require('path');
 var sutils = require('./story_utils');
 var File_Model = require('./File_Model');

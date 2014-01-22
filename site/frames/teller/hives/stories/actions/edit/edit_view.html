@@ -5,16 +5,18 @@
 </ol>
 
 <h1><%= story.title %>
-    <a class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>">View</a></h1>
+    <a class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>/maps">Maps</a>
+    <a class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>">View</a></h1>
 
-<form class="form-horizontal" role="form" action="/stories/<%= story.name %>/edit" method="post">
+
+<form class="form-horizontal" role="form" action="/stories/<%= story._id %>/edit" method="post">
     <input type="hidden" name="name" value="<%= story.name %>"/>
 
     <div class="form-group">
         <label for="title" class="col-sm-2 control-label">Title</label>
 
         <div class="col-sm-10">
-            <input type="text" name="title" class="form-control" id="title" placeholder="Title"
+            <input type="text" name="title" class="form-control" id="title" placeholder="Title" required
                    value="<%= story.title %>">
         </div>
     </div>
@@ -26,6 +28,7 @@
                 %></textarea>
         </div>
     </div>
+    <% if (false){ %>
     <div class="form-group">
         <label for="start-chapter" class="col-sm-2 control-label">Start Chapter</label>
 
@@ -34,6 +37,7 @@
                    value="<%= story.start_chapter || '' %>"/>
         </div>
     </div>
+    <% } %>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary">Update Story</button>

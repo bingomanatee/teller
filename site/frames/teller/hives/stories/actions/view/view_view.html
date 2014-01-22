@@ -4,40 +4,13 @@
 </ol>
 
 <h1><%= story.title %>
+    <% if(edit_story){ %>
     <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>/edit">Edit</a>
     <a class="btn btn-default pull-right" href="/stories/<%= story.name %>/chapter/0/add_chapter">Add Chapter</a>
+    <% } %>
 </h1>
 
-<ol>
-    <%
-    var found = false;
-    chapters.forEach(function(c){
-    if(found) return;
-    %>
-    <li><a href="/stories/<%=story.name %>/chapter/<%= c.name %>"><%= c.title %></a> <%= c.summary || '' %></li>
-    <%
-
-    found = chapter && chapter.name == c.name;
-    }) %>
-</ol>
-
-<% if (chapter){ %>
-<h2><%= chapter.title %></h2>
-
-<p><%- chapter.content %></p>
-
-<% if (continue_links && continue_links.length) { continue_links.forEach(function(cl){ %>
-<p><b>Next:</b> <a href="/stories/<%= story.name %>/chapter/<%= cl.to_chapter %>">
-    <%= cl.to_chapter_obj.summary || 'Next Chapter' %>
-</a>
-</p>
-<% }) } %>
-
-<% if (!continue_links.length)  { %>
-<a class="btn btn-default" href="/stories/<%= story.name %>/chapter/<%= chapter.name %>/add_next">Add Chapter
-    after &quot;<%= chapter.title %>&quot;</a>
-<a class="btn btn-default"
-   href="/stories/<%=story.name %>/chapter/<%= chapter.name %>/link/continue">
-    Link to existing chapter</a>
-<% } %>
+<% if (story.first_chapter){ %>
+       <a class="btn btn-primary btn-large" href="/stories/<%= story._id %>/chapter/<%=story.first_chapter %>">
+           Begin Story</a>
 <% } %>

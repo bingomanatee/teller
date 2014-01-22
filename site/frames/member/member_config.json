@@ -1,6 +1,7 @@
 {
 	"static": {
-		"img": "/img/members"
+		"img": "/img/members",
+        "js": "/js/members"
 	},
 
 	"member_actions": [

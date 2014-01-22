@@ -7,46 +7,51 @@ module.exports = {
         if (!ctx.name) {
             done(new Error('no story name'))
         } else {
-            done();
+            this.model('member').ican(ctx, ['teller edit story'], done, function () {
+                this.model('teller-story').get(ctx._id, function(err, story){
+                    if (story && story.creator == (ctx.$session('member') ? ctx.$session('member')._id : -1)){
+                         done();
+                    } else {
+                        ctx.add_message('You do not have permission to create stories.', 'error');
+                        ctx.$go('/stories', done);
+                    }
+                });
+            });
         }
-
     },
 
     on_get_input: function (ctx, done) {
-        var name = ctx.name;
-        var library = this.model('teller_library');
 
-        library.models.stories.get_story(name, function (err, story) {
+        this.models('teller-story').get(ctx._id, function (err, story) {
             if (err) {
                 done(err);
-            } else {
+            } else if (story) {
                 ctx.story = story;
                 done();
+            } else {
+                ctx.add_message('cannot find story ' + ctx._id, 'error');
+                ctx.$go('/stories', done);
             }
         })
     },
 
     on_post_input: function (ctx, done) {
-        var name = ctx.name;
-        var library = this.model('teller_library');
-
-        library.models.stories.get_story(name, function (err, story) {
+        this.models('teller-story').get(ctx._id, function (err, story) {
             if (err) {
                 done(err);
-            } else {
+            } else if (story) {
                 ctx.story = story;
                 done();
+            } else {
+                ctx.add_message('cannot find story ' + ctx._id, 'error');
+                ctx.$go('/stories', done);
             }
         })
     },
 
     on_post_process: function (ctx, done) {
-        var story = ctx.story;
-        delete ctx.story;
 
-        story.update(ctx, function (err, story) {
-            ctx.$go('/stories/' + story.name, done);
-        })
+        _.extend(ctx.story, _.pick(ctx, 'title', 'summary'))
     },
 
     on_get_process: function (ctx, done) {

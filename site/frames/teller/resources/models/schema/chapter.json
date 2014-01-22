@@ -1,0 +1,17 @@
+{
+    "name": {
+        "type": "string",
+        "required": true,
+        "unique": true
+    },
+    "summary": {
+        "type": "string"
+    },
+    "content": {
+        "type": "string",
+        "required": true
+    },
+    "next_chapter": {
+        "type": "objectId"
+    }
+}

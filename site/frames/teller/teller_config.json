@@ -1,3 +1,30 @@
 {
-    "layout_name": "teller_home"
+    "layout_name": "teller_home",
+
+    "member_actions": [
+        "teller edit chapter",
+        "teller edit story",
+        "teller create drawing",
+        "teller create chapter",
+        "teller create story",
+        "teller delete story"
+    ],
+
+    "member_roles": [
+        {
+            "name":    "teller author",
+            "actions": [
+                "teller create story",
+                "teller create drawing",
+                "teller create chapter"
+            ]
+        },
+        {
+            "name": "teller editor",
+            "actions" : [
+                "teller delete story",
+                "teller edit chapter"
+            ]
+        }
+    ]
 }

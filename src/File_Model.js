@@ -86,6 +86,9 @@ _.extend(File_Model.prototype, {
         })
     },
 
+    exists: function(full_path){
+        return fs.existsSync(full_path);
+    },
 
     put: function (name, data, callback) {
         var full_path = this.full_path(name, true);

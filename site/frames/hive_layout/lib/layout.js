@@ -1,6 +1,6 @@
 var Component = require('hive-component');
 var path = require('path');
-var _DEBUG = true;
+var _DEBUG = false;
 var util = require('util');
 
 var loads = 0;

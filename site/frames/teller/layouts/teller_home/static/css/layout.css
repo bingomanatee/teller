@@ -54,3 +54,9 @@ body {
 .tt-suggestion p {
     margin: 0;
 }
+
+.nav > li > a {
+    padding-top: 0.1em;
+    padding-bottom: 0.2em;
+    padding-left: 0.5em;
+}

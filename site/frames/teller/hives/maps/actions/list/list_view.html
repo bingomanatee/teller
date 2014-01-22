@@ -1,0 +1,17 @@
+<ol class="breadcrumb">
+    <li><a href="/stories">Stories</a></li>
+    <li><a href="/stories/<%= story._id %>"><%= story.title %></a></li>
+    <li class="active">Maps</li>
+</ol>
+
+<h1>Maps for story &quot;<%= story.title %>&quot;
+    <% if(edit_story){ %>
+    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>/edit">Edit</a>
+    <a class="btn btn-default pull-right" href="/stories/<%= story.name %>/chapter/0/add_chapter">Add Chapter</a>
+    <% } %>
+</h1>
+
+<% if (story.first_chapter){ %>
+       <a class="btn btn-primary btn-large" href="/stories/<%= story._id %>/chapter/<%=story.first_chapter %>">
+           Begin Story</a>
+<% } %>

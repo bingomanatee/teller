@@ -1,0 +1,23 @@
+{
+    "story": {
+        "type": "objectId"
+    },
+    "link_type": {
+        "type": "string",
+        "required": true
+    },
+    "from_chapter": {
+        "type": "objectId"
+    },
+
+    "to_chapter": {
+        "type": "objectId"
+    },
+    "prompt": {
+        "type": "string"
+    },
+    "two_way": {
+        "type": "boolean",
+        "default": false
+    }
+}
