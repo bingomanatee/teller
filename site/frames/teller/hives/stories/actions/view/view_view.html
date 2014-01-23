@@ -5,8 +5,8 @@
 
 <h1><%= story.title %>
     <% if(edit_story){ %>
-    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>/edit">Edit</a>
-    <a class="btn btn-default pull-right" href="/stories/<%= story.name %>/chapter/0/add_chapter">Add Chapter</a>
+    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>/edit">Edit</a>
+    <a class="btn btn-default pull-right" href="/stories/<%= story._id %>/chapter/0/add_chapter">Add Chapter</a>
     <% } %>
 </h1>
 

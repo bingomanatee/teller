@@ -4,15 +4,16 @@ var util = require('util');
 module.exports = {
 
     on_validate: function (ctx, done) {
-        if (!ctx.name) {
-            done(new Error('no story name'))
+        var story_model =  this.model('teller-story');
+        if (!ctx._id) {
+            done(new Error('no story id'))
         } else {
             this.model('member').ican(ctx, ['teller edit story'], done, function () {
-                this.model('teller-story').get(ctx._id, function(err, story){
+               story_model.get(ctx._id, function(err, story){
                     if (story && story.creator == (ctx.$session('member') ? ctx.$session('member')._id : -1)){
                          done();
                     } else {
-                        ctx.add_message('You do not have permission to create stories.', 'error');
+                        ctx.add_message('You do not have permission to create stories.', 'danger');
                         ctx.$go('/stories', done);
                     }
                 });
@@ -20,30 +21,16 @@ module.exports = {
         }
     },
 
-    on_get_input: function (ctx, done) {
-
-        this.models('teller-story').get(ctx._id, function (err, story) {
-            if (err) {
-                done(err);
-            } else if (story) {
-                ctx.story = story;
-                done();
-            } else {
-                ctx.add_message('cannot find story ' + ctx._id, 'error');
-                ctx.$go('/stories', done);
-            }
-        })
-    },
 
     on_post_input: function (ctx, done) {
-        this.models('teller-story').get(ctx._id, function (err, story) {
+        this.model('teller-story').get(ctx._id, function (err, story) {
             if (err) {
                 done(err);
             } else if (story) {
                 ctx.story = story;
                 done();
             } else {
-                ctx.add_message('cannot find story ' + ctx._id, 'error');
+                ctx.add_message('cannot find story ' + ctx._id, 'danger');
                 ctx.$go('/stories', done);
             }
         })
@@ -54,18 +41,32 @@ module.exports = {
         _.extend(ctx.story, _.pick(ctx, 'title', 'summary'))
     },
 
-    on_get_process: function (ctx, done) {
-        ctx.$out.set('story', ctx.story);
-        ctx.story.get_chapters(function (err, chapters) {
+    on_get_input: function (ctx, done) {
+        var chapters_model = this.model('teller-chapter');
+        this.model('teller-story').get(ctx._id, function (err, story) {
             if (err) {
-                done(err)
+                done(err);
+            } else if (story) {
+                ctx.story = story;
+                chapters_model.find({story: ctx._id}, function(err, chapters){
+                    if (err){
+                        done(err);
+                    } else {
+                        ctx.chapters = chapters || [];
+                        done();
+                    }
+                })
             } else {
-                chapters = _.values(chapters);
-                console.log('chapters: %s', chapters.length);
-                ctx.$out.set('chapters', chapters);
-                done();
+                ctx.add_message('cannot find story ' + ctx._id, 'danger');
+                ctx.$go('/stories', done);
             }
-        });
+        })
+    },
 
+    on_get_output: function(ctx, done){
+
+        ctx.$out.set('story', ctx.story);
+        ctx.$out.set('chapters', ctx.chapters);
+        done();
     }
 }

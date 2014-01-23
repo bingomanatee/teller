@@ -22,7 +22,7 @@ module.exports = {
             "view member data"], callback,{
             go: '/',
             message: 'You do not have authorization to view members',
-            key: 'error'
+            key: 'danger'
         })
 	},
 

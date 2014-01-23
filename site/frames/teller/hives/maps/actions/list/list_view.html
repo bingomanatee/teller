@@ -5,13 +5,15 @@
 </ol>
 
 <h1>Maps for story &quot;<%= story.title %>&quot;
-    <% if(edit_story){ %>
-    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>/edit">Edit</a>
-    <a class="btn btn-default pull-right" href="/stories/<%= story.name %>/chapter/0/add_chapter">Add Chapter</a>
-    <% } %>
+    <a id="view-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>">Edit</a>
+    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>/edit">Edit</a>
+    <a class="btn btn-default pull-right" href="/stories/<%= story._id %>/chapter/0/add_chapter">Add Chapter</a>
 </h1>
 
-<% if (story.first_chapter){ %>
-       <a class="btn btn-primary btn-large" href="/stories/<%= story._id %>/chapter/<%=story.first_chapter %>">
-           Begin Story</a>
-<% } %>
+<ul>
+    <% maps.forEach(function(map){ %>
+    <li><a href="/stories/<%= story._id %>/maps/<%= map._id %>"><%= map.title %></a></li>
+    <% }) %>
+</ul>
+
+<p><a href="/stories/<%= story._id %>/maps/0/new" class="btn btn-default btn-primery">Create Map</a></p>

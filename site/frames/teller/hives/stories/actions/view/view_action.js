@@ -31,7 +31,7 @@ module.exports = {
                 ctx.story = story;
                 done()
             } else {
-                ctx.add_message('cannot find story ' + ctx._id, 'error');
+                ctx.add_message('cannot find story ' + ctx._id, 'danger');
                 ctx.$go('/stories', done);
             }
         })

@@ -90,7 +90,7 @@ module.exports = function (apiary, cb) {
 				act();
 			} else {
 				if (act.message){
-					ctx.add_message(act.message, act.key || 'error');
+					ctx.add_message(act.message, act.key || 'danger');
 				}
 				ctx.$go(act.go);
 			}

@@ -1,5 +1,5 @@
 {
     "routes": {
-        "get": "/stories/:_story/maps"
+        "get": "/stories/:story/maps"
     }
 }

@@ -19,7 +19,7 @@ module.exports = {
 		member_model.ican(context, ['edit member'], callback,{
 			go: '/',
 			message: 'You do not have authorization to administer members',
-			key: 'error'
+			key: 'danger'
 		})
 	},
 

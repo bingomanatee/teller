@@ -17,10 +17,10 @@ module.exports = {
 	
 	on_validate: function(context, done){
 		if (!(context.oauth_token && context.oauth_verifier)){
-			context.add_message("missing oauth token or verifier", 'error');
+			context.add_message("missing oauth token or verifier", 'danger');
 			context.$go("/", done);
 		} else if (!context.$session('oauth:twitter')){
-			context.add_message('no oauth for twitter', 'error');
+			context.add_message('no oauth for twitter','danger');
 			context.$go("/", done);
 		} else {
 			done();
