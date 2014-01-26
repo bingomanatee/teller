@@ -3,7 +3,7 @@
 
     var app = angular.module('teller_app');
 
-    app.factory('map', function () {
+    app.factory('map', function (map_stage_blunds, town) {
 
         var canvas;
         var stage;
@@ -34,7 +34,7 @@
 
                 });
 
-                map_info.map_layer = map_info.map.add_layer('towns', {
+                map_info.town_layer = map_info.map.add_layer('towns', {
                     add_tile_shapes: function (tile) {
 
                     }
@@ -42,6 +42,16 @@
 
                 stage = map_info.map.render(map_info.render_params, null, canvas);
             },
+
+            add_town: function(new_town){
+                var  bounds = map_stage_blunds(map_info.map);
+                new_town.position = bounds.center;
+                this.towns.push(new town.Town(new_town));
+            },
+
+            town_layer: null,
+
+            ground_layer: null,
 
             update: function () {
                 map_info.map.refresh();

@@ -1,0 +1,51 @@
+{
+    "layout_name": "mt",
+    "routes": {
+        "get": "/tests/teller/maps"
+    },
+    "static": {
+        "js": "/js/tests/teller/maps"
+    },
+    "javascript": [
+        {
+            "url": "/js/teller/vendor/underscore.1.5.2.min.js",
+            "context": "head",
+            "name": "underscore"
+        },
+        {
+            "url": "/js/teller/vendor/angular-1.2.10/angular.min.js",
+            "context": "head",
+            "name": "angular"
+        },
+        {
+            "url": "/js/teller/vendor/angular-1.2.10/angular-mocks.js",
+            "context": "head",
+            "name": "angular"
+        },
+        {
+            "url": "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.js",
+            "context": "head",
+            "requires": ["angular"],
+            "name": "ui-bootstrap"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/app.js",
+            "context": "head",
+            "requires": ["angular", "ui-bootstrap"],
+            "name": "teller-app"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/util/make_class.js",
+            "context": "head",
+            "requires": ["angular", "teller-app"]
+        }
+        ,
+        {
+            "url": "/js/tests/teller/maps/spec.js",
+            "context": "spec"
+        }
+    ]
+
+}

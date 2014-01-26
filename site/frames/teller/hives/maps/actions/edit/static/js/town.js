@@ -2,8 +2,7 @@
 
     var app = angular.module('teller_app');
 
-    app.factory('town', function ($modal) {
-
+    app.factory('town', function ($modal, make_class) {
 
         var NewTownModalCtrl = function ($scope, $modalInstance, town_types) {
 
@@ -25,7 +24,23 @@
             };
         };
 
-        var town_dialog = {
+        var Town = make_class(function(props){
+            this.name = '';
+            this.size = 0;
+            this.town_type = 'settlement';
+
+            _.extend(this, props);
+
+        }, {
+
+
+        });
+
+
+
+        var town = {
+
+            Town: Town,
 
             town_types: [
                 {
@@ -49,27 +64,24 @@
 
             ],
 
-            dialog: function($scope){
+            dialog: function($scope, on_result){
                 var modalInstance = $modal.open({
                     templateUrl: '/partials/teller/maps/town-modal.html',
                     controller: NewTownModalCtrl,
                     resolve: {
                         town_types: function () {
-                            return town_dialog.town_types;
+                            return town.town_types;
                         }
                     }
                 });
 
-                modalInstance.result.then(function (town) {
-                    console.log('got town ', town);
-                    $scope.add_town(town);
-                }, function () {
+                modalInstance.result.then(on_result, function () {
                     console.log('Modal dismissed at: ' + new Date());
                 });
             }
         };
 
-        return town_dialog;
+        return town;
 
     });
 

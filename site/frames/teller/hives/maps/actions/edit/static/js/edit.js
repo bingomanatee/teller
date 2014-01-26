@@ -35,7 +35,9 @@
 
             switch (type) {
                 case 'town':
-                    town.dialog($scope);
+                    town.dialog($scope, function(town){
+                        map.add_town(town);
+                    });
                     break;
 
                 default:
