@@ -9,3 +9,5 @@
 /site/actions.log
 
 /site/passport_config.json
+
+/site/frames/teller/static/js/vendor/angular-1.2.10/docs/
