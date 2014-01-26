@@ -7,7 +7,7 @@ module.exports = {
 
     on_validate: function (ctx, done) {
         var members_model = this.model('member');
-        this.model('teller-story').get(ctx.story, function (err, story) {
+        this.model('teller_story').get(ctx.story, function (err, story) {
             if (story) {
                 ctx.$out.set('story', story);
                 var member = ctx.$session('member');
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     on_input: function (ctx, done) {
-        this.model('teller-map').find({story: ctx.story}, function (err, maps) {
+        this.model('teller_map').find({story: ctx.story}, function (err, maps) {
             ctx.$out.set('maps', maps || []);
             done();
         })

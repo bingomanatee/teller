@@ -1,0 +1,11 @@
+<ol class="breadcrumb">
+    <% menu.items.forEach(function(item){ %>
+        <li class="<%= item.meta.active ? "active" : "" %>">
+            <% if (item.link) {%>
+            <a href="<%= item.link %>">
+            <%= short_title(item.title) %></a>
+            <% } else { %>
+            <%= short_title(item.title) %><% } %>
+        </li>
+    <% }) %>
+</ol>

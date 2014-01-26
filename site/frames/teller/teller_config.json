@@ -1,6 +1,5 @@
 {
     "layout_name": "teller_home",
-
     "member_actions": [
         "teller edit chapter",
         "teller edit story",
@@ -9,10 +8,9 @@
         "teller create story",
         "teller delete story"
     ],
-
     "member_roles": [
         {
-            "name":    "teller author",
+            "name": "teller author",
             "actions": [
                 "teller create story",
                 "teller create drawing",
@@ -21,10 +19,14 @@
         },
         {
             "name": "teller editor",
-            "actions" : [
+            "actions": [
                 "teller delete story",
                 "teller edit chapter"
             ]
         }
-    ]
+    ],
+    "static": {
+        "js": "/js/teller",
+        "partials": "/partials/teller"
+    }
 }

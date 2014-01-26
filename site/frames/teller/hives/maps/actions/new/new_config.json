@@ -1,5 +1,27 @@
 {
     "routes": {
-        "get": "/stories/:story/maps/0/new"
+        "get": "/stories/:story/maps/0/new",
+        "post": "/stories/:story/maps/0/new"
+    },
+
+    "javascript": [
+        {
+            "url": "/js/vendor/create.js",
+            "context": "foot",
+            "defer": true
+        },
+        {
+            "url": "/js/teller/easel-mapper.js",
+            "context": "foot",
+            "defer": true
+        },
+        {
+            "url": "/js/teller/maps/new/new.js",
+            "context": "foot",
+            "defer": true
+        }
+    ],
+    "static": {
+        "js": "/js/teller/maps/new"
     }
 }

@@ -1,13 +1,13 @@
-<ol class="breadcrumb">
-    <li><a href="/stories">Stories</a></li>
-    <li><a href="/stories/<%= story._id %>"><%= story.title %></a></li>
-    <li class="active">Maps</li>
-</ol>
+<%
+var bc = helpers.teller_breadcrumb();
+bc.add({title: 'Maps', link: '/stories/' + story._id + '/maps', meta: {active: true} } );
+%>
+<%- bc %>
 
 <h1>Maps for story &quot;<%= story.title %>&quot;
-    <a id="view-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>">Edit</a>
-    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>/edit">Edit</a>
-    <a class="btn btn-default pull-right" href="/stories/<%= story._id %>/chapter/0/add_chapter">Add Chapter</a>
+    <a id="view-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>">View Story</a>
+    <a id="edit-story-btn" class="btn btn-small btn-info pull-right" href="/stories/<%= story._id %>/edit">Edit
+        Story</a>
 </h1>
 
 <ul>
@@ -16,4 +16,4 @@
     <% }) %>
 </ul>
 
-<p><a href="/stories/<%= story._id %>/maps/0/new" class="btn btn-default btn-primery">Create Map</a></p>
+<p><a href="/stories/<%= story._id %>/maps/0/new" class="btn btn-default btn-primary btn-large">Create Map</a></p>

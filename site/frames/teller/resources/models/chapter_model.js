@@ -10,7 +10,7 @@ module.exports = function(apiary, callback) {
 
     var model = Mongoose_Model(
         {
-            name: 'teller-chapter'
+            name: 'teller_chapter'
         } // mixins
         , {
             mongoose:   mongoose,

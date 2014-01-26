@@ -4,31 +4,18 @@ var path = require('path');
 var _DEBUG = false;
 var fs = require('fs');
 
-var alert_template;
-
 var MAX_TITLE_LENGTH = 20;
-var Menu = require('hive-menu');
+var hm = require('hive-menu');
 
 function _title(t) {
+    if (!t) return '(untitled)';
     if (t.length <= MAX_TITLE_LENGTH) return t;
     return t.substr(0, MAX_TITLE_LENGTH) + '...';
 }
 
-var _breadcrumb = _.template('<ol class="breadcrumb">' +
-    '<% menu.items.forEach(function(item){ %>' +
-    '<li class="<%= item.active ? "active" : "" %>">' +
-    '<% if (item.link) {%>' +
-    '<a href="<%= item.link %>">' +
-    '<%= short_title(item.text) %></a>' +
-    '<% } else { %>' +
-    '<%= short_title(item.text) %><% } %>' +
-    '</li>' +
-    '<% } %>' +
-    '</ol>');
-
 module.exports = function (apiary, callback) {
-    fs.readFile(path.resolve(__dirname, 'templates/message_alert.html'), 'utf8', function (err, template) {
-        alert_template = _.template(template);
+    fs.readFile(path.resolve(__dirname, 'templates/menu.ejs'), 'utf8', function (err, template) {
+        _breadcrumb = _.template(template);
 
         var _helper = {
             weight: -100,
@@ -42,11 +29,17 @@ module.exports = function (apiary, callback) {
                 }
 
                 output.helpers.teller_breadcrumb = function () {
-                    var breadcrumb = new Menu();
 
-                    menu.toString = function(){
-                        return _breadcrumb({menu: this, short_title: _title});
-                    }
+                    var breadcrumb = new hm.Menu();
+
+                    breadcrumb.add({title: 'Stories', link: '/stories'});
+                    breadcrumb.add({title: output.story.title, link: '/stories/' + output.story.id});
+
+                    breadcrumb.toString = function(){
+                        return _breadcrumb({menu: this.toJSON(), story: output.story, short_title: _title});
+                    };
+
+                    return breadcrumb;
                 };
 
                 done();

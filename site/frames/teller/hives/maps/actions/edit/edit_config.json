@@ -1,0 +1,60 @@
+{
+    "routes": {
+        "get": "/stories/:story/maps/:map/edit"
+    },
+
+    "javascript": [
+        {
+            "url": "/js/teller/vendor/underscore.1.5.2.min.js",
+            "context": "head"
+        },
+        {
+            "url": "/js/teller/vendor/create.js",
+            "context": "head"
+        },
+        {
+            "url": "/js/teller/easel-mapper.js",
+            "context": "head"
+        },
+        {
+            "url": "/js/th/vendor/angular/angular.min.js",
+            "context": "head",
+            "name": "angular"
+        },
+        {
+            "url": "/js/th/vendor/angular/ui-bootstrap-tpls-0.10.0.js",
+            "context": "head",
+            "requires": ["angular"]
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/app.js",
+            "context": "head"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/map.js",
+            "context": "head"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/town.js",
+            "context": "head"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/appearance.js",
+            "context": "head"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/edit.js",
+            "context": "head"
+        }
+
+
+    ],
+    "static": {
+        "js": "/js/teller/maps/edit"
+    }
+}

@@ -1,0 +1,41 @@
+<%
+var bc = helpers.teller_breadcrumb();
+bc.add({title: 'Maps', link: '/stories/' + story._id + '/maps'});
+bc.add({title: map.title, link: '/stories/' + story._id + '/maps/' + map._id});
+bc.add({title: 'Edit', meta: {active: true} });
+%>
+<%- bc %>
+
+<script language="javascript">
+    var map_data = <%- JSON.stringify(map.toJSON()) %>;
+</script>
+
+<div ng-app="teller_app">
+    <div ng-controller="teller_map_edit">
+
+        <h1>Edit Map &quot;<%= map.title %>&quot; for Story &quot;<%= story.title %>&quot;</h1>
+
+        <p><b>Background:</b> {{ background.name }}</p>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-click="set_appearance()">Appearance...</button>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Add
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="add_item('road')">Road</a></li>
+                    <li><a ng-click="add_item('town')">Town</a></li>
+                    <li><a ng-click="add_item('building')">Building</a></li>
+                    <li><a ng-click="add_item('terrain')">Terrain</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <canvas id="map" width="800" height="600"
+                style="border: 1px solid black; background-color: rgb(51, 51, 51)"></canvas>
+    </div>
+
+</div>

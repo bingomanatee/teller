@@ -21,12 +21,14 @@ module.exports = {
     on_post_process: function (ctx, done) {
         var story = ctx.story;
 
-        var story_model = this.model('teller-story');
+        var story_model = this.model('teller_story');
         story_model.put(story, function(err, story){
             if (err){
                 done(err);
-            } else {
+            } else if (story){
                 ctx.$go('/stories/' + story._id, done);
+            } else {
+                done('cannot create story');
             }
         });
     }

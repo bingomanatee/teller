@@ -5,7 +5,7 @@ module.exports = {
     on_input: function(ctx, done){
         var member = this.model('member');
 
-        var story_model = this.model('teller-story');
+        var story_model = this.model('teller_story');
 
 
       story_model.all(function(err, stories){

@@ -4,7 +4,7 @@ var util = require('util');
 module.exports = {
 
     on_validate: function (ctx, done) {
-        var story_model =  this.model('teller-story');
+        var story_model =  this.model('teller_story');
         if (!ctx._id) {
             done(new Error('no story id'))
         } else {
@@ -23,7 +23,7 @@ module.exports = {
 
 
     on_post_input: function (ctx, done) {
-        this.model('teller-story').get(ctx._id, function (err, story) {
+        this.model('teller_story').get(ctx._id, function (err, story) {
             if (err) {
                 done(err);
             } else if (story) {
@@ -42,8 +42,8 @@ module.exports = {
     },
 
     on_get_input: function (ctx, done) {
-        var chapters_model = this.model('teller-chapter');
-        this.model('teller-story').get(ctx._id, function (err, story) {
+        var chapters_model = this.model('teller_chapter');
+        this.model('teller_story').get(ctx._id, function (err, story) {
             if (err) {
                 done(err);
             } else if (story) {

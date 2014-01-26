@@ -46,7 +46,7 @@ console.log('loading %s', frame_path);
 server.listen(app.get('port'), function () {
     mongoose.connect('mongodb://localhost/teller');
     var apiary = mvc.Apiary({mongoose: mongoose, log_file: log_file, action_handler_failsafe_time: 3000}, frame_path);
-  //  apiary.set_config('god_mode', true);
+    apiary.set_config('god_mode', true);
     apiary._config.setAll(require('./site_identity.json'));
     apiary._config.setAll(require('./passport_config.json'));
 

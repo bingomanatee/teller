@@ -1,8 +1,11 @@
-<ol class="breadcrumb">
-    <li><a href="/stories">Stories</a></li>
-    <li><%= story.title %></li>
-    <li class="active">Add Chapter</li>
-</ol>
+<%
+var bc = helpers.teller_breadcrumb();
+bc.add({title: chapter.title,
+link: '/stories/' + story._id + '/chapter/' + chapter._id});
+bc.add({title: 'New', meta: {active: true}
+} );
+%>
+<%- bc %>
 
 <h1><%= story.title %>
     <a class="btn btn-small btn-info pull-right" href="/stories/<%= story.name %>">View</a></h1>

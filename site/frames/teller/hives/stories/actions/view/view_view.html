@@ -1,7 +1,7 @@
-<ol class="breadcrumb">
-    <li><a href="/stories">Stories</a></li>
-    <li class="active"><%= story.title %></li>
-</ol>
+<%
+var bc = helpers.teller_breadcrumb();
+%>
+<%- bc %>
 
 <h1><%= story.title %>
     <% if(edit_story){ %>

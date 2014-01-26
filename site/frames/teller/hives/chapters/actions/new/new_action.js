@@ -13,7 +13,7 @@ module.exports = {
 
     on_input: function (ctx, done) {
         var story_id = ctx.story;
-        var story_model = this.model('teller-story');
+        var story_model = this.model('teller_story');
 
         console.log('story name: %s, from = ', story_id, ctx.chapter);
 
@@ -33,7 +33,7 @@ module.exports = {
     },
 
     on_post_process: function (ctx, done) {
-        var chapter_model = this.model('teller-chapter');
+        var chapter_model = this.model('teller_chapter');
 
         var data = _.pick(ctx, 'name', 'content', 'story', 'summary');
         console.log('making new chapter with from = %s', ctx.from_chapter);

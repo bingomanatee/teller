@@ -20,7 +20,7 @@ module.exports = {
     },
 
     on_input: function (ctx, done) {
-        var story_model = this.model('teller-story');
+        var story_model = this.model('teller_story');
 
 
         story_model.get(ctx._id, function (err, story) {

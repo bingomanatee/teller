@@ -11,6 +11,8 @@
   "dependencies": {
     "hive-model-mongoose": "0.0.2",
     "express": "~3.4.8",
-    "hive-menu": "0.0.1"
+    "hive-menu": "0.0.1",
+    "q": "~1.0.0",
+    "ejs": "~0.8.5"
   }
 }
