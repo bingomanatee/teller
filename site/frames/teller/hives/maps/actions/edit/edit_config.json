@@ -17,7 +17,7 @@
             "context": "head"
         },
         {
-            "url": "/js/th/vendor/angular/angular.min.js",
+            "url": "/js/th/vendor/angular/angular-1.2.10/angular.min.js",
             "context": "head",
             "name": "angular"
         },
@@ -29,6 +29,19 @@
         ,
         {
             "url": "/js/teller/maps/edit/app.js",
+            "context": "head",
+            "requires": ["angular", "ui-bootstrap"],
+            "name": "teller-app"
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/util/make_class.js",
+            "context": "head",
+            "requires": ["angular", "teller-app"]
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/util/map_stage_bounds.js",
             "context": "head"
         }
         ,
