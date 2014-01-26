@@ -1,0 +1,8 @@
+{
+    "name": "mt",
+
+    "static": {
+        "js": "/js/mt",
+        "css": "/css/mt"
+    }
+}

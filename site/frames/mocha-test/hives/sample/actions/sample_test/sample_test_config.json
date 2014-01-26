@@ -1,0 +1,19 @@
+{
+    "routes": {
+        "get": "/tests/sample_test"
+    },
+    "layout_name": "mt",
+    "static": {
+        "js": "/js/sample_test"
+    },
+    "javascript": [
+        {
+            "url": "/js/sample_test/test_class.js",
+            "context": "head"
+        },
+        {
+            "url": "/js/sample_test/test_class_spec.js",
+            "context": "spec"
+        }
+    ]
+}
