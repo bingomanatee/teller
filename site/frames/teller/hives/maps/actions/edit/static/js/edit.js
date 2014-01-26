@@ -44,7 +44,7 @@
 
         $scope.set_appearance = function () {
             appearance.dialog($scope, function(settings){
-                map.bg_color = settings.bg_color;
+                map.background = settings.background;
                 map.update();
             });
         };

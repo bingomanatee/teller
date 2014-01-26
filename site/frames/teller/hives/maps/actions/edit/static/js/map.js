@@ -24,7 +24,7 @@
 
                     add_tile_shapes: function (tile) {
                         var back_fill = new createjs.Shape();
-                        back_fill.graphics.f(map_info.bg_color).r(tile.left() - 1,
+                        back_fill.graphics.f(map_info.background ? map_info.background.color : 'white').r(tile.left() - 1,
                             tile.top() - 1,
                             this.tile_width / this.scale() + 1,
                             this.tile_height / this.scale() + 1
