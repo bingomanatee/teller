@@ -24,18 +24,38 @@
             };
         };
 
-        var Town = make_class(function(props){
+        var TOWN_RADIUS = 10;
+
+        var Town = make_class(function (props) {
             this.name = '';
             this.size = 0;
             this.town_type = 'settlement';
+            this.position = {x: 0, y: 0};
 
             _.extend(this, props);
 
         }, {
 
+            to_easel: function (scale) {
+                var shape = new createjs.Shape();
+                shape.x = this.position.x;
+                shape.y = this.position.y;
+
+                shape.graphics.f('black').dc(0, 0, TOWN_RADIUS / scale).ef();
+
+                return shape;
+            },
+
+            range: function(){
+                return {
+                    left: this.position.x - TOWN_RADIUS,
+                    right: this.position.x + TOWN_RADIUS,
+                    top: this.position.y - TOWN_RADIUS,
+                    bottom: this.position.y + TOWN_RADIUS
+                }
+            }
 
         });
-
 
 
         var town = {
@@ -64,7 +84,7 @@
 
             ],
 
-            dialog: function($scope, on_result){
+            dialog: function ($scope, on_result) {
                 var modalInstance = $modal.open({
                     templateUrl: '/partials/teller/maps/town-modal.html',
                     controller: NewTownModalCtrl,

@@ -3,6 +3,18 @@
         "get": "/stories/:story/maps/:map/edit"
     },
 
+    "css": [
+        {
+            "url": "/css/teller/maps/edit/edit.css",
+            "context": "head"
+        },
+        {
+            "url": "/js/teller/vendor/slider/css/slider.css",
+            "context": "head",
+            "requires": ["angular"]
+        }
+    ],
+
     "javascript": [
         {
             "url": "/js/teller/vendor/underscore.1.5.2.min.js",
@@ -17,14 +29,19 @@
             "context": "head"
         },
         {
-            "url": "/js/th/vendor/angular/angular-1.2.10/angular.min.js",
+            "url": "/js/teller/vendor/angular-1.2.10/angular.min.js",
             "context": "head",
             "name": "angular"
         },
         {
-            "url": "/js/th/vendor/angular/ui-bootstrap-tpls-0.10.0.js",
+            "url": "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.js",
             "context": "head",
             "requires": ["angular"]
+        },
+        {
+            "url": "/js/teller/vendor/slider/js/bootstrap-slider.js",
+            "context": "head",
+            "requires": ["angular", "jquery"]
         }
         ,
         {
@@ -35,39 +52,41 @@
         }
         ,
         {
-            "url": "/js/teller/maps/edit/util/make_class.js",
+            "url": "/js/teller/maps/edit/factories/util/make_class.js",
             "context": "head",
             "requires": ["angular", "teller-app"]
         }
         ,
         {
-            "url": "/js/teller/maps/edit/util/map_stage_bounds.js",
+            "url": "/js/teller/maps/edit/factories/util/map_stage_bounds.js",
             "context": "head"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/map.js",
+            "url": "/js/teller/maps/edit/factories/map.js",
+            "context": "head",
+            "requires": ["angular"]
+        }
+        ,
+        {
+            "url": "/js/teller/maps/edit/factories/town.js",
             "context": "head"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/town.js",
-            "context": "head"
-        }
-        ,
-        {
-            "url": "/js/teller/maps/edit/appearance.js",
+            "url": "/js/teller/maps/edit/factories/appearance.js",
             "context": "head"
         }
         ,
         {
             "url": "/js/teller/maps/edit/edit.js",
-            "context": "head"
+            "context": "head",
+            "requires": ["teller-app", "map", "town", "appearance", "slider"]
         }
-
-
     ],
+
     "static": {
-        "js": "/js/teller/maps/edit"
+        "js": "/js/teller/maps/edit",
+        "css": "/css/teller/maps/edit"
     }
 }

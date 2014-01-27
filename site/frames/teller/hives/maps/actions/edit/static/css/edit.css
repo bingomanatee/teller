@@ -1,0 +1,19 @@
+.map-scale {
+    width: 250px;
+}
+
+.map-scale-group {
+    width: 350px;
+}
+
+.map-scale-group .range-item {
+    width: 260px;
+    padding: 5px;
+}
+
+.map-scale-group .range-feedback {
+    padding: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}

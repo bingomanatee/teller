@@ -44,6 +44,8 @@
             }
         };
 
+       $('#map_scale_slider').slider();
+
         $scope.set_appearance = function () {
             appearance.dialog($scope, function(settings){
                 map.background = settings.background;

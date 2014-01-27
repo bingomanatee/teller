@@ -6,6 +6,20 @@
         "/js": "/js/th",
         "/fonts": "/fonts/th"
     },
+    "css": [
+        {
+            "url": "/css/th/bootstrap.css" ,
+            "context": "head"
+        },
+        {
+            "url": "/css/th/layout.css" ,
+            "context": "head"
+        },
+        {
+            "url": "/css/th/bootstrap-responsive.css" ,
+            "context": "head"
+        }
+    ],
     "javascript": [
         {
           "url": "/js/th/vendor/jquery-1.10.2.min.js",

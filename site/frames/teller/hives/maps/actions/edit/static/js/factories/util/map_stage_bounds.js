@@ -4,11 +4,11 @@
     app.factory('map_stage_bounds', function () {
         return function (map, stage) {
             if (!stage) stage = map.stage;
-            if (stage) {
+            if (!stage) {
                 return null;
             }
-            var bx = stage.width;
-            var by = stage.height;
+            var bx = stage.canvas.width;
+            var by = stage.canvas.height;
 
             return {
                 top_left: map.layers.ground.offset_layer().globalToLocal(0, 0),
