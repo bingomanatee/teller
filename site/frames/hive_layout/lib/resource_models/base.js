@@ -4,6 +4,8 @@ var path = require('path');
 var fs = require('fs');
 var _DEBUG = false;
 var events = require('events');
+var hive_model = require('hive-model');
+var order = require('order-by-prereq');
 
 /* ************************************
  * This is a generic list of resources.
@@ -14,59 +16,53 @@ var events = require('events');
 
 /* ******* CLOSURE ********* */
 
-function Resource_Model_Base() {
-	this.items = [];
+function Resource_Model_Base(mixins) {
+
+    var dataspace = {add: _.identity};
+
+    var base_mixins = [
+        {
+            /**
+             * note - override with a more context-relevant property merge
+             *
+             * @param new_data {object}
+             * @param old_data {object}
+             */
+            merge: function (new_data, old_data) {
+                _.defaults(new_data, old_data);
+            },
+
+            get_context: function (context) {
+                var scripts = this.find({context: context}).records();
+                var reqs = _.compact(_.flatten(_.pluck(scripts, 'requires')));
+                if (reqs.length){
+
+                _.each(reqs, function (r) {
+                    var found = this.find({name: r}).one();
+                    if (!found) {
+                        scripts.push({name: r, url: '/not_found/' + r, context: context});
+                    } else {
+                        scripts.push(found);
+                    }
+                }, this);
+                    scripts = order.OrderByPrereq(scripts, 'name', 'requires');
+            }
+
+                return _.reject(scripts, function(s){ return s.rendered});
+            }
+        }
+    ];
+
+    if (_.isArray(mixins)) {
+        base_mixins = base_mixins.concat(mixins);
+    } else if (_.isObject(mixins)) {
+        base_mixins.push(mixins);
+    }
+
+    return hive_model.Model(base_mixins, {}, dataspace);
+
 }
 
-
-util.inherits(Resource_Model_Base, events.EventEmitter);
-
-_.extend(Resource_Model_Base.prototype,{
-		add: function (data) {
-			data = _.clone(data);
-			var old_data = this.find(data);
-			if (old_data) {
-				this.merge(data, old_data);
-			}
-			this.items.push(data);
-			if (_DEBUG)	console.log('adding item %s', util.inspect(data));
-			this.emit('add', data);
-			return data;
-		},
-
-		/**
-		 * note - override with a more context-relevant property merge
-		 *
-		 * @param new_data {object}
-		 * @param old_data {object}
-		 */
-		merge: function(new_data, old_data){
-			_.defaults(new_data, old_data);
-		},
-
-		/**
-		 * note - override with a more context-relevant query system
-		 * @param query
-		 * @returns {array}
-		 */
-		find: function (query) {
-			throw new Error('must override find')
-		},
-
-		add_items: function (list) {
-			var out = [];
-
-			if (!_.isArray(list)) {
-				throw new Error('bad input for base ' + util.inspect(list));
-			}
-
-			list.forEach(function (item) {
-				out.push(this.add(item));
-			}, this);
-
-			return out;
-		}
-	})
 /* ********* EXPORTS ******** */
 
 module.exports = Resource_Model_Base;

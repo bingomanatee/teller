@@ -8,9 +8,13 @@
     },
     "dependencies": {
         "hive-loader": "0.0.2",
-        "hive-component": "0.0.1-a"
+        "hive-component": "0.0.1-a",
+        "order-by-prereq": "0.0.2",
+        "hive-model": "~0.1.2"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "hive-model": "~0.1.0"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },

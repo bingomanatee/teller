@@ -54,25 +54,9 @@ function is_rendered(script){
 	return false;
 }
 
-function find(query){
-	return _.filter(this.items, function(item){
-		if (query.url && (item.url != query.url)){
-			return false;
-		}
-		if (query.context && (item.context != query.context)){
-			return false;
-		}
-
-		if (query.name && (item.name != query.name)){
-			return false;
-		}
-
-		return true;
-	})
-}
-
 function render(context){
-	var scripts = this.find({context: context});
+	var scripts = this.get_context(context);
+
 	//@TODO: order by requirements
 	var out = script_head_template({context: context});
 	scripts.forEach(function(script){
@@ -88,29 +72,24 @@ function render(context){
 /* ********* EXPORTS ******** */
 
 module.exports = function (apiary) {
-	//var alias_model = apiary.model('js_path_alias');
 
-	var model = new Base();
+	var model = Base({
+        is_rendered: is_rendered,
+        merge: merge,
+        render: render
+    });
+
+    model.set_config('rendered_things', {});
 	model.rendered_things = {};
 
-	model.find = find;
-	model.is_rendered = is_rendered;
-	model.merge = merge;
-
-	model.on('add', function(script){
+	model.on('record', function(script){
 		if(!script.defer){
 			script.defer = false;
 		}
 		if (!script.requires){
 			script.requires = [];
 		}
-	/*	var alias = alias_model.match(script.url);
-		if (alias){
-			_.extend(script, alias);
-		}*/
 	});
-
-	model.render = render;
 
 	return model;
 }; // end export function
