@@ -40,14 +40,10 @@ function merge(new_data, old_data){
 }
 
 function is_rendered(script){
-	if (script.rendered){
-		return true;
-	}else	if (this.rendered_things[script.url]){
-		script.rendered = true;
+	if (this.rendered_things[script.url]){
 		return true;
 	} else if(script.name){
 		if(this.rendered_things[script.name]){
-			script.rendered = true;
 			return true;
 		}
 	}
@@ -61,8 +57,11 @@ function render(context){
 	var out = script_head_template({context: context});
 	scripts.forEach(function(script){
 		if (!this.is_rendered(script)) {
-			out += script_template(script);
-			script.rendered = true;
+			out += script_template(_.extend({},script, {defer: false, requires: []}));
+			this.rendered_things[script.url] = true;
+            if (script.name){
+                this.rendered_things[script.name] = true;
+            }
 		}
 	}, this);
 	out += script_foot_template({context:context });

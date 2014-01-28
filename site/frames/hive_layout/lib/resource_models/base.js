@@ -33,22 +33,22 @@ function Resource_Model_Base(mixins) {
             },
 
             get_context: function (context) {
-                var scripts = this.find({context: context}).records();
-                var reqs = _.compact(_.flatten(_.pluck(scripts, 'requires')));
+                var items = this.find({context: context}).records();
+                var reqs = _.compact(_.flatten(_.pluck(items, 'requires')));
                 if (reqs.length){
 
                 _.each(reqs, function (r) {
                     var found = this.find({name: r}).one();
                     if (!found) {
-                        scripts.push({name: r, url: '/not_found/' + r, context: context});
+                        items.push({name: r, url: '/not_found/' + r, context: context});
                     } else {
-                        scripts.push(found);
+                        items.push(found);
                     }
                 }, this);
-                    scripts = order.OrderByPrereq(scripts, 'name', 'requires');
+                    items = order.OrderByPrereq(items, 'name', 'requires');
             }
 
-                return _.reject(scripts, function(s){ return s.rendered});
+                return _.reject(items, function(s){ return s.rendered});
             }
         }
     ];

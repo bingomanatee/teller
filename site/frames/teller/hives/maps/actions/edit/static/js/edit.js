@@ -44,7 +44,18 @@
             }
         };
 
-       $('#map_scale_slider').slider();
+       $('#map-scale-slider').slider({
+            value: 1,
+            min: 0.125,
+           max: 4,
+           step: 0.125,
+           handle: 'square'
+       }).on('slide', function(ev){
+            var scale =  ev.value;
+               console.log('scale: ', scale);
+            map.set_scale(scale);
+        })
+
 
         $scope.set_appearance = function () {
             appearance.dialog($scope, function(settings){

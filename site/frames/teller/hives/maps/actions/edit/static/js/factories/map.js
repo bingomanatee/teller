@@ -61,7 +61,12 @@
 
             update: function () {
                 map_info.map.refresh();
-                stage.update();
+                map_info.map.render(map_info.render_params, stage);
+            },
+
+            set_scale: function(n){
+                map_info.render_params.scale = n;
+                map_info.update();
             },
 
             render_params: {scale: 0.25, left: 0, top: 0, heavy_freq: 6, tile_width: 100, tile_height: 100, hex_size: 50},

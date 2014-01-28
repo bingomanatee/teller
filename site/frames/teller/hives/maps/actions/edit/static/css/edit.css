@@ -11,6 +11,10 @@
     padding: 5px;
 }
 
+#map-scale-slider{
+    width: 245px;
+}
+
 .map-scale-group .range-feedback {
     padding: 5px;
     font-weight: bold;

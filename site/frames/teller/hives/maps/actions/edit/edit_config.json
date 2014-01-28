@@ -34,14 +34,21 @@
             "name": "angular"
         },
         {
-            "url": "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.js",
+            "url": "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.min.js",
             "context": "head",
-            "requires": ["angular"]
+            "requires": ["angular"],
+            "name":  "ui-bootstrap"
+        },
+        {
+          "url": "/js/teller/vendor/jquery-1.10.2.min.js",
+            "name": "jquery",
+            "context": "head"
         },
         {
             "url": "/js/teller/vendor/slider/js/bootstrap-slider.js",
             "context": "head",
-            "requires": ["angular", "jquery"]
+            "requires": ["angular", "jquery"],
+            "name": "slider"
         }
         ,
         {
@@ -59,23 +66,30 @@
         ,
         {
             "url": "/js/teller/maps/edit/factories/util/map_stage_bounds.js",
-            "context": "head"
+            "context": "head",
+            "name": "stage_bounds",
+            "requires": ["angular"]
         }
         ,
         {
             "url": "/js/teller/maps/edit/factories/map.js",
             "context": "head",
-            "requires": ["angular"]
+            "requires": ["angular", "teller-app", "stage_bounds"],
+            "name": "map"
         }
         ,
         {
             "url": "/js/teller/maps/edit/factories/town.js",
-            "context": "head"
+            "context": "head",
+            "requires": ["angular", "teller-app"],
+            "name": "town"
         }
         ,
         {
             "url": "/js/teller/maps/edit/factories/appearance.js",
-            "context": "head"
+            "context": "head",
+            "requires": ["angular", "teller-app"],
+            "name": "appearance"
         }
         ,
         {
