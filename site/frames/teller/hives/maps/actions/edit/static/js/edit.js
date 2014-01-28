@@ -32,7 +32,6 @@
         // EASEL_MAP.grid_layer('back grid', map, {grid_params:{line_color: 'rgba(0, 204,0,0.5)'}});
 
         $scope.add_item = function (type) {
-
             switch (type) {
                 case 'town':
                     town.dialog($scope, function(town){
@@ -43,6 +42,12 @@
                 default:
             }
         };
+
+        var c = _.template('x: <%= left %>, y: <%= top %>');
+
+        $scope.coords = function(){
+            return c(map.render_params);
+        }
 
        $('#map-scale-slider').slider({
             value: 1,

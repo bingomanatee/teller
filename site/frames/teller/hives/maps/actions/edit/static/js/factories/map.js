@@ -3,12 +3,13 @@
 
     var app = angular.module('teller_app');
 
-    app.factory('map', function (map_stage_bounds, town) {
+    app.factory('map', function (map_stage_bounds, appearance, town) {
 
         var canvas;
-        var stage;
 
         var map_info = {
+
+            stage: null,
 
             init_map: function () {
                 canvas = $('canvas#map')[0];
@@ -20,19 +21,10 @@
 
                 });
 
-                map_info.ground_layer = map_info.map.add_layer('ground', {
+                var start_point;
+                var start_offset;
 
-                    add_tile_shapes: function (tile) {
-                        var back_fill = new createjs.Shape();
-                        back_fill.graphics.f(map_info.background ? map_info.background.color : 'white').r(tile.left() - 1,
-                            tile.top() - 1,
-                            this.tile_width / this.scale() + 1,
-                            this.tile_height / this.scale() + 1
-                        );
-                        tile.container().addChild(back_fill);
-                    }
-
-                });
+                appearance.add_ground_layer(map_info);
 
                 map_info.town_layer = map_info.map.add_layer('towns', {
                     add_tile_shapes: function (tile) {
@@ -42,14 +34,22 @@
                                 tile.container().addChild(shape);
                             };
                         })
+                    },
+                    events: {
+                        pressmove: function(ev){
+                            console.log('mouse event for town: ', ev);
+                        },
+                        pressup: function(e2){
+                            console.log('mouse up for town:', e2)
+                        }
                     }
                 });
 
-                stage = map_info.map.render(map_info.render_params, null, canvas);
+                map_info.stage = map_info.map.render(map_info.render_params, null, canvas);
             },
 
             add_town: function(new_town){
-                var  bounds = map_stage_bounds(map_info.map, stage);
+                var  bounds = map_stage_bounds(map_info.map, map_info.stage);
                 new_town.position = bounds.center;
                 this.towns.push(new town.Town(new_town));
                 map_info.update();
@@ -61,7 +61,7 @@
 
             update: function () {
                 map_info.map.refresh();
-                map_info.map.render(map_info.render_params, stage);
+                map_info.map.render(map_info.render_params, map_info.stage);
             },
 
             set_scale: function(n){
