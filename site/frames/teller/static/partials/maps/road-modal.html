@@ -1,0 +1,29 @@
+<div ng-form>
+    <div class="modal-header">
+        <h3>New Road</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Name</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" required ng-model="road.name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="road-type" class="col-sm-2 control-label">Type</label>
+
+                <div class="col-sm-10">
+                    <select  class="form-control"  ng-model="road.type" id="road-type" ng-options="s.name for s in road_types">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Create Road</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

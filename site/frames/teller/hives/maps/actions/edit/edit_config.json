@@ -72,6 +72,13 @@
         }
         ,
         {
+            "url": "/js/teller/maps/edit/factories/road.js",
+            "context": "head",
+            "requires": ["angular", "teller-app", "stage_bounds"],
+            "name": "road"
+        }
+        ,
+        {
             "url": "/js/teller/maps/edit/factories/map.js",
             "context": "head",
             "requires": ["angular", "teller-app", "stage_bounds"],
@@ -95,7 +102,7 @@
         {
             "url": "/js/teller/maps/edit/edit.js",
             "context": "head",
-            "requires": ["teller-app", "map", "town", "appearance", "slider"]
+            "requires": ["teller-app", "map", "town", "appearance", "slider", "road"]
         }
     ],
 

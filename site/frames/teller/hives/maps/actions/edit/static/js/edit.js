@@ -6,6 +6,7 @@
     app.controller('teller_map_edit', function ($scope, $window, $modal, $location,
                                                 appearance,
                                                 map,
+                                                road,
                                                 town) {
 
         var add_options = [
@@ -39,6 +40,12 @@
                     });
                     break;
 
+                case 'road':
+                    road.dialog($scope, function(road){
+                        map.add_road(road);
+                    });
+                    break;
+
                 default:
             }
         };
@@ -61,10 +68,12 @@
             map.set_scale(scale);
         })
 
+        map.background = $scope.background = appearance.bg_options[0];
+        map.update();
 
         $scope.set_appearance = function () {
             appearance.dialog($scope, function(settings){
-                map.background = settings.background;
+                map.background = $scope.background = settings.background;
                 map.update();
             });
         };

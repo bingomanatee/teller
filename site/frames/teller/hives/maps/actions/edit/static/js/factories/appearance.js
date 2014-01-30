@@ -11,10 +11,8 @@
                 $modalInstance.close($scope.selected);
             };
 
-            $scope.background = background;
-
             $scope.bg_options = appearance_dialog.bg_options;
-            $scope.selected = {item: background};
+            $scope.selected = {background: background};
 
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
@@ -69,6 +67,10 @@
                     },
                     events: {
                         pressmove: function(ev){
+                            if (map_info._ground_move_time > new Date().getTime() + 50){
+                                return;
+                            }
+                            map_info._ground_move_time = new Date().getTime();
                             console.log('pressmove for ground: ', ev);
                             var point  = map_info.ground_layer.offset_layer()
                                 .globalToLocal(ev.stageX, ev.stageY);

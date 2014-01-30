@@ -3,11 +3,17 @@
 
     var app = angular.module('teller_app');
 
-    app.factory('map', function (map_stage_bounds, appearance, town) {
+    app.factory('map', function (map_stage_bounds, appearance, town, road) {
 
         var canvas;
 
         var map_info = {
+
+            MODE_DRAW_ROAD: 1,
+
+            MODE_MOVE: 0,
+
+            mode: 0,
 
             stage: null,
 
@@ -25,34 +31,28 @@
                 var start_offset;
 
                 appearance.add_ground_layer(map_info);
-
-                map_info.town_layer = map_info.map.add_layer('towns', {
-                    add_tile_shapes: function (tile) {
-                        _.each(map_info.towns, function(town){
-                            if (tile.contains(town.range())){
-                                var shape = town.to_easel(tile.layer.scale());
-                                tile.container().addChild(shape);
-                            };
-                        })
-                    },
-                    events: {
-                        pressmove: function(ev){
-                            console.log('mouse event for town: ', ev);
-                        },
-                        pressup: function(e2){
-                            console.log('mouse up for town:', e2)
-                        }
-                    }
-                });
+                road.add_road_layer(map_info);
+                town.add_town_layer(map_info);
+                road.add_road_draw_layer(map_info);
 
                 map_info.stage = map_info.map.render(map_info.render_params, null, canvas);
             },
 
-            add_town: function(new_town){
-                var  bounds = map_stage_bounds(map_info.map, map_info.stage);
+            add_town: function (new_town) {
+                new_town.map_info = map_info;
+                var bounds = map_stage_bounds(map_info.map, map_info.stage);
                 new_town.position = bounds.center;
                 this.towns.push(new town.Town(new_town));
                 map_info.update();
+            },
+
+            add_road: function (new_road) {
+                new_road.map_info = map_info;
+                var bounds = map_stage_bounds(map_info.map, map_info.stage);
+
+                var road_obj = new road.Road(new_road);
+                map_info.roads.push(road_obj);
+                road_obj.start_road(bounds.center);
             },
 
             town_layer: null,
@@ -64,7 +64,7 @@
                 map_info.map.render(map_info.render_params, map_info.stage);
             },
 
-            set_scale: function(n){
+            set_scale: function (n) {
                 map_info.render_params.scale = n;
                 map_info.update();
             },
@@ -72,6 +72,8 @@
             render_params: {scale: 0.25, left: 0, top: 0, heavy_freq: 6, tile_width: 100, tile_height: 100, hex_size: 50},
 
             towns: [],
+
+            roads: [],
 
             bg_color: 'white'
 
