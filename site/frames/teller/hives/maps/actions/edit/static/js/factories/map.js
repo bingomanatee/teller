@@ -17,6 +17,13 @@
 
             stage: null,
 
+            search_text: '',
+
+            set_search_text: function(value){
+                this.search_text = value || '';
+                this.update();
+            },
+
             init_map: function () {
                 canvas = $('canvas#map')[0];
                 map_info.map = new EASEL_MAP.Map({
@@ -46,13 +53,17 @@
                 map_info.update();
             },
 
-            add_road: function (new_road) {
+            add_road: function (new_road, $scope) {
                 new_road.map_info = map_info;
+                map_info.mode = map_info.MODE_DRAW_ROAD;
+                new_road.scope = $scope;
                 var bounds = map_stage_bounds(map_info.map, map_info.stage);
 
                 var road_obj = new road.Road(new_road);
                 map_info.roads.push(road_obj);
-                road_obj.start_road(bounds.center);
+                road_obj.edit_road();
+                road_obj.add_point(bounds.center);
+                return road_obj;
             },
 
             town_layer: null,

@@ -3,11 +3,7 @@
     var app = angular.module('teller_app');
 
 
-    app.controller('teller_map_edit', function ($scope, $window, $modal, $location,
-                                                appearance,
-                                                map,
-                                                road,
-                                                town) {
+    app.controller('teller_map_edit', function ($scope, $window, $modal, $location, appearance, map, road, town) {
 
         var add_options = [
             {
@@ -35,14 +31,15 @@
         $scope.add_item = function (type) {
             switch (type) {
                 case 'town':
-                    town.dialog($scope, function(town){
+                    town.dialog($scope, function (town) {
                         map.add_town(town);
                     });
                     break;
 
                 case 'road':
-                    road.dialog($scope, function(road){
-                        map.add_road(road);
+                    road.dialog($scope, function (road_data) {
+
+                        var road_obj = map.add_road(road_data, $scope);
                     });
                     break;
 
@@ -50,29 +47,81 @@
             }
         };
 
-        var c = _.template('x: <%= left %>, y: <%= top %>');
+        $scope.$watch('search_text', function(value){
+            map.set_search_text(value);
+        });
 
-        $scope.coords = function(){
-            return c(map.render_params);
+        $scope.edit_item = function (type) {
+            switch (type) {
+                case 'town':
+
+                    break;
+
+                case 'road':
+                    road.edit_dialog($scope, map, function (road_obj) {
+                        if (road_obj) {
+                            road_obj.edit_road();
+
+                            $scope.confirm_start('done with road', function () {
+                                road_obj.done_drawing_road();
+                            })
+                        }
+                    });
+                    break;
+
+                default:
+            }
+        };
+
+        $scope.show_search_menu =  $scope.show_add_menu = $scope.show_appearance_menu = function () {
+            return map.mode == map.MODE_MOVE;
         }
 
-       $('#map-scale-slider').slider({
+        $scope.map_mode = function () {
+            return map.mode;
+        }
+
+        var c = _.template('x: <%= left %>, y: <%= top %>, scale: <%= scale %>');
+
+        $scope.coords = function () {
+            return c(map.render_params);
+        };
+
+        $scope.show_confirm_button = false;
+
+        $scope.confirm_done = function () {
+            $scope._confirm_done();
+            $scope.show_confirm_button = false;
+            $scope._confirm_done = null;
+        };
+
+        $scope.confirm_start = function (message, on_done) {
+            if ($scope._confirm_done) {
+                throw new Error('attempting to add confirm start ' + message
+                    + ' with existing handler ' + $scope.confirm_text);
+            }
+            $scope.show_confirm_button = true;
+            $scope.confirm_text = message || 'Done';
+            $scope._confirm_done = on_done;
+        };
+
+        $('#map-scale-slider').slider({
             value: 1,
             min: 0.125,
-           max: 4,
-           step: 0.125,
-           handle: 'square'
-       }).on('slide', function(ev){
-            var scale =  ev.value;
-               console.log('scale: ', scale);
-            map.set_scale(scale);
-        })
+            max: 4,
+            step: 0.125,
+            handle: 'square'
+        }).on('slide', function (ev) {
+                var scale = ev.value;
+                console.log('scale: ', scale);
+                map.set_scale(scale);
+            });
 
         map.background = $scope.background = appearance.bg_options[0];
         map.update();
 
         $scope.set_appearance = function () {
-            appearance.dialog($scope, function(settings){
+            appearance.dialog($scope, function (settings) {
                 map.background = $scope.background = settings.background;
                 map.update();
             });

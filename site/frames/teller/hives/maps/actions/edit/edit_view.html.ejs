@@ -18,9 +18,12 @@ bc.add({title: 'Edit', meta: {active: true} });
         <p><b>Background:</b> {{ background.name }}</p>
 
         <div class="btn-group">
-            <button type="button" class="btn btn-default" ng-click="set_appearance()">Appearance...</button>
+            <button type="button" class="btn btn-default"
+                    ng-show="show_appearance_menu()"
+                    ng-click="set_appearance()">Appearance...
+            </button>
 
-            <div class="btn-group">
+            <div class="btn-group" ng-show="show_add_menu()">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     Add
                     <span class="caret"></span>
@@ -32,13 +35,24 @@ bc.add({title: 'Edit', meta: {active: true} });
                     <li><a ng-click="add_item('terrain')">Terrain</a></li>
                 </ul>
             </div>
+            <button type="button"
+                    class="btn btn-default btn-primary" ng-click="confirm_done()" ng-show="show_confirm_button"
+                    >
+                {{ confirm_text }}
+            </button>
+        </div>
+        <div ng-form class="form-inline pull-right" style="width: 20em" ng-show="show_search_menu()">
+            <div class="form-group">
+                <input type="search" class="form-control input-smal" ng-model="search_text" placeholder="search"/>
+            </div>
+            <div class="form-group" ng-click="search_text=''"><b>&times;</b></div>
         </div>
         <div class="map-scale-group pull-left">
             <div class="range-item">
-                <input type="range" id="map-scale-slider" />
+                <input type="range" id="map-scale-slider"/>
             </div>
             <div class="range-feedback">
-                {{ coords() }}
+                {{ coords() }} mode = {{ map_mode() }}
             </div>
         </div>
 
