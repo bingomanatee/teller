@@ -107,6 +107,20 @@
         }
         ,
         {
+            "url":      "/js/teller/maps/edit/factories/data/scale_options.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "scale_options"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/edit/factories/data/grid_units.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "grid_units"
+        }
+        ,
+        {
             "url":      "/js/teller/maps/edit/factories/building.js",
             "context":  "head",
             "requires": ["angular", "teller-app", "building_types"],
@@ -116,7 +130,7 @@
         {
             "url":      "/js/teller/maps/edit/factories/appearance.js",
             "context":  "head",
-            "requires": ["angular", "teller-app"],
+            "requires": ["angular", "teller-app", "scale_options", "grid_units"],
             "name":     "appearance"
         }
         ,

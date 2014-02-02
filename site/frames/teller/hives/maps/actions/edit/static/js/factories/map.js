@@ -18,6 +18,16 @@
 
             search_text: '',
 
+            center: function(){
+                var top = map_info.stage.canvas.height /2;
+                var left = map_info.stage.canvas.width /2;
+                top /= map_info.render_params.scale;
+                left /= map_info.render_params.scale;
+                map_info.render_params.left = left;
+                map_info.render_params.top = top;
+                map_info.update();
+            },
+
             set_search_text: function (value) {
                 this.search_text = value || '';
                 this.update();
@@ -30,12 +40,12 @@
                 }
 
                 canvas = $('canvas#map')[0];
-                map_info.size = size;
+                map_info.size = size.value;
                 map_info.map = new EASEL_MAP.Map({
-                    left:   Math.floor(size / 2),
-                    right:  Math.ceil(size / 2),
-                    top:    Math.floor(size / 2),
-                    bottom: Math.ceil(size / 2)
+                    left:   Math.floor(size.value / -2),
+                    right:  Math.ceil(size.value / 2),
+                    top:    Math.floor(size.value / -2),
+                    bottom: Math.ceil(size.value / 2)
                 });
 
                 appearance.add_ground_layer(map_info);
@@ -90,7 +100,12 @@
                 map_info.render_params.scale = n;
                 map_info.update();
                 if (map_info.$scope){
-                    map_info.$scope.$apply();
+                    try {
+                       setTimeout(function(){
+                           map_info.$scope.$apply();
+                       }, 10);
+                    } catch (e){
+                    }
                 }
             },
 

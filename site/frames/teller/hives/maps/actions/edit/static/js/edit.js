@@ -111,9 +111,9 @@
             $scope._confirm_done = on_done;
         };
 
-        var scales = [1/30, 1/20, 1/10, 1, 2];
+        var scales = [1/30, 1/20, 1/10, 1, 2, 4, 6, 8, 10, 12, 15];
         $('#map-scale-slider').slider({
-            value:  1,
+            value:  5,
             min:    0,
             max:    scales.length - 1,
             step:   1,
@@ -125,7 +125,6 @@
             });
 
         map.background = $scope.background = appearance.bg_options[0];
-        map.update();
 
         $scope.set_appearance = function () {
             appearance.dialog($scope, function (settings) {
@@ -136,8 +135,12 @@
             });
         };
 
-// Please note that $modalInstance represents a modal window (instance) dependency.
-// It is not the same as the $modal service used above.
+        $scope.center = function(){
+          map.center();
+        };
+
+        map.set_scale(scales[5]);
+        map.update();
 
     })
 })();

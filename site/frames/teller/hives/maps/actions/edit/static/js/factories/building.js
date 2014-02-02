@@ -4,7 +4,7 @@
 
     app.factory('building', function ($modal, make_class, building_types) {
 
-        var NewBuildingModalCtrl = function ($scope, $modalInstance) {
+        var NewBuildingModalCtrl = function ($scope, $modalInstance, editing_building, base_scope) {
 
             $scope.ok = function () {
                 console.log('returning background');
@@ -12,14 +12,18 @@
             };
 
             $scope.building = {
-                name: '',
-                type: building_types[0],
-                size: building_types[0].size
+                name: editing_building ? editing_building.name : '',
+                type: editing_building ? editing_building.type : building_types[0],
+                size: editing_building ? editing_building.size : building_types[0].size
             };
+
+            if (base_scope){
+                $scope.building.$scope = base_scope;
+            }
 
             $scope.building_types = building_types;
 
-            $scope.$watch('building.type', function(btype){
+            $scope.$watch('building.type', function (btype) {
                 $scope.building.size = btype.default_size;
             }, true);
 
@@ -41,11 +45,26 @@
 
         }, {
 
+            edit: function () {
+                building_info.dialog({}, function (data) {
+                    console.log('building changed: ', data);
+                    if (data){
+                        this.name = data.name;
+                        this.size = data.size;
+                        this.type = data.type;
+                        this.map_info.building_layer.refresh();
+                        this.map_info.map.render_layer(this.map_info.building_layer, this.map_info.render_params, this.map_info.stage);
+                        this.map_info.stage.update();
+
+                    }
+                }.bind(this), this)
+            },
+
             to_easel: function (scale) {
                 var shape = new createjs.Shape();
 
                 shape.graphics.f(_color(this.type.default_color)).dr(0, 0, this.size, this.size).ef()
-                    .ss(1/scale).s('black').dr(0, 0, this.size, this.size);
+                    .ss(1 / scale).s('black').dr(0, 0, this.size, this.size);
                 shape.x = shape.y = this.size / -2;
                 var container = new createjs.Container();
 
@@ -56,11 +75,11 @@
 
                 if (this.name) {
                     var outline = new createjs.Text(this.name, 14 / scale + 'px Arial', 'white');
-                    outline.outline = 2/scale;
-                    outline.x = this.size * -4/10;
+                    outline.outline = 2 / scale;
+                    outline.x = this.size * -4 / 10;
 
-                    var label = new createjs.Text(this.name, 14 / scale +  'px Arial', 'black');
-                    label.x = this.size * -4/10;
+                    var label = new createjs.Text(this.name, 14 / scale + 'px Arial', 'black');
+                    label.x = this.size * -4 / 10;
                     container.addChild(outline);
                     container.addChild(label);
                 }
@@ -79,7 +98,7 @@
 
         });
 
-        var building = {
+        var building_info = {
 
             Building: Building,
 
@@ -100,6 +119,13 @@
                                     console.log('mousedown for building', building);
                                     console.log('shape: ', shape);
 
+                                    if (e.nativeEvent.altKey) {
+                                        //  this.remove_point(point);
+                                    } else if (e.nativeEvent.shiftKey) {
+                                        e.stopPropagation();
+                                        return  building.edit();
+                                    }
+
                                     _.each(building.shapes, function (data) {
                                         console.log('clearing ', data);
                                         data.shape.visible = false;
@@ -112,6 +138,8 @@
                                 });
 
                                 shape.on('pressmove', function (e) {
+                                    if (!move_shape) return;
+
                                     var local = map_info.building_layer.offset_layer()
                                         .globalToLocal(e.stageX, e.stageY);
                                     console.log('pressmove for ', building.name, local);
@@ -127,7 +155,7 @@
                                     map_info.building_move_layer.offset_layer().removeAllChildren();
                                     building.shapes = [];
                                     map_info.update();
-
+                                    move_shape = false;
                                 })
                             }
                             ;
@@ -151,11 +179,17 @@
 
             building_types: building_types,
 
-            dialog: function ($scope, on_result) {
+            dialog: function ($scope, on_result, building) {
                 var modalInstance = $modal.open({
                     templateUrl: '/partials/teller/maps/building-modal.html',
                     controller:  NewBuildingModalCtrl,
                     resolve:     {
+                        editing_building: function () {
+                            return building
+                        },
+                        base_scope:       function () {
+                            return $scope;
+                        }
                     }
                 });
 
@@ -165,7 +199,7 @@
             }
         };
 
-        return building;
+        return building_info;
 
     });
 

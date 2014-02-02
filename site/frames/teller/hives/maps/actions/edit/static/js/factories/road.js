@@ -166,9 +166,9 @@
 
                 point.cursor.on('mousedown', function (e) {
                     if (e.nativeEvent.altKey) {
-                        this.insert_point(point);
-                    } else if (e.nativeEvent.shiftKey){
                         this.remove_point(point);
+                    } else if (e.nativeEvent.shiftKey){
+                        this.insert_point(point);
                     }
                     e.stopPropagation();
                 }.bind(this));
