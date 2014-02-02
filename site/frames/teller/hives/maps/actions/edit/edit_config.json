@@ -5,117 +5,131 @@
 
     "css": [
         {
-            "url": "/css/teller/maps/edit/edit.css",
+            "url":     "/css/teller/maps/edit/edit.css",
             "context": "head"
         },
         {
-            "url": "/js/teller/vendor/slider/css/slider.css",
-            "context": "head",
+            "url":      "/js/teller/vendor/slider/css/slider.css",
+            "context":  "head",
             "requires": ["angular"]
         }
     ],
 
     "javascript": [
         {
-            "url": "/js/teller/vendor/underscore.1.5.2.min.js",
+            "url":     "/js/teller/vendor/underscore.1.5.2.min.js",
             "context": "head"
         },
         {
-            "url": "/js/teller/vendor/create.js",
+            "url":     "/js/teller/vendor/create.js",
             "context": "head"
         },
         {
-            "url": "/js/teller/easel-mapper.js",
+            "url":     "/js/teller/easel-mapper.js",
             "context": "head"
         },
         {
-            "url": "/js/teller/vendor/angular-1.2.10/angular.min.js",
+            "url":     "/js/teller/vendor/angular-1.2.10/angular.min.js",
             "context": "head",
-            "name": "angular"
+            "name":    "angular"
         },
         {
-            "url": "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.min.js",
-            "context": "head",
+            "url":      "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.min.js",
+            "context":  "head",
             "requires": ["angular"],
-            "name":  "ui-bootstrap"
+            "name":     "ui-bootstrap"
         },
         {
-          "url": "/js/teller/vendor/jquery-1.10.2.min.js",
-            "name": "jquery",
+            "url":     "/js/teller/vendor/jquery-1.10.2.min.js",
+            "name":    "jquery",
             "context": "head"
         },
         {
-            "url": "/js/teller/vendor/slider/js/bootstrap-slider.js",
-            "context": "head",
+            "url":      "/js/teller/vendor/slider/js/bootstrap-slider.js",
+            "context":  "head",
             "requires": ["angular", "jquery"],
-            "name": "slider"
+            "name":     "slider"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/app.js",
-            "context": "head",
+            "url":      "/js/teller/maps/edit/app.js",
+            "context":  "head",
             "requires": ["angular", "ui-bootstrap"],
-            "name": "teller-app"
+            "name":     "teller-app"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/util/make_class.js",
-            "context": "head",
+            "url":      "/js/teller/maps/edit/factories/util/make_class.js",
+            "context":  "head",
             "requires": ["angular", "teller-app"]
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/util/map_stage_bounds.js",
-            "context": "head",
-            "name": "stage_bounds",
+            "url":      "/js/teller/maps/edit/factories/util/map_stage_bounds.js",
+            "context":  "head",
+            "name":     "stage_bounds",
             "requires": ["angular", "teller-app"]
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/util/road_label.js",
-            "context": "head",
-            "name": "road_label",
+            "url":      "/js/teller/maps/edit/factories/util/road_label.js",
+            "context":  "head",
+            "name":     "road_label",
             "requires": ["angular", "teller-app"]
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/road.js",
-            "context": "head",
+            "url":      "/js/teller/maps/edit/factories/road.js",
+            "context":  "head",
             "requires": ["angular", "teller-app", "road_label", "stage_bounds"],
-            "name": "road"
+            "name":     "road"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/map.js",
-            "context": "head",
+            "url":      "/js/teller/maps/edit/factories/map.js",
+            "context":  "head",
             "requires": ["angular", "teller-app", "stage_bounds"],
-            "name": "map"
+            "name":     "map"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/town.js",
-            "context": "head",
+            "url":      "/js/teller/maps/edit/factories/town.js",
+            "context":  "head",
             "requires": ["angular", "teller-app"],
-            "name": "town"
+            "name":     "town"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/factories/appearance.js",
-            "context": "head",
+            "url":      "/js/teller/maps/edit/factories/data/building_types.js",
+            "context":  "head",
             "requires": ["angular", "teller-app"],
-            "name": "appearance"
+            "name":     "building_types"
         }
         ,
         {
-            "url": "/js/teller/maps/edit/edit.js",
-            "context": "head",
-            "name": "map_edit",
-            "requires": ["teller-app", "map", "town", "appearance", "slider", "road"]
+            "url":      "/js/teller/maps/edit/factories/building.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app", "building_types"],
+            "name":     "building"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/edit/factories/appearance.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "appearance"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/edit/edit.js",
+            "context":  "head",
+            "name":     "map_edit",
+            "requires": ["teller-app", "map", "town", "building", "appearance", "slider", "road"]
         }
     ],
 
     "static": {
-        "js": "/js/teller/maps/edit",
+        "js":  "/js/teller/maps/edit",
         "css": "/css/teller/maps/edit"
     }
 }

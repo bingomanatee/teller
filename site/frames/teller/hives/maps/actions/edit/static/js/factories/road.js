@@ -58,6 +58,7 @@
                 this.points = _.without(this.points, point);
                 this.map_info.update();
             },
+
             insert_point: function (point) {
                 var index = _.indexOf(this.points, point);
 
