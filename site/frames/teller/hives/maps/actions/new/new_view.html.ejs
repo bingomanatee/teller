@@ -1,0 +1,95 @@
+<%
+var bc = helpers.teller_breadcrumb();
+bc.add({title: 'Maps', link: '/stories/' + story._id + '/maps'});
+bc.add({title: 'New', meta: {active: true} } );
+%>
+<%- bc %>
+
+<script language="javascript">
+    (function () {
+
+        var app = angular.module('teller_app');
+         app.constant('story', <%- JSON.stringify(story) %>);
+    })();
+</script>
+
+<h1>New map for story &quot;<%= story.title %>&quot;</h1>
+
+<div ng-app="teller_app">
+    <div ng-controller="teller_map_new">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">Title</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="title" required min="4" class="form-control"
+                           ng-model="title" id="title" placeholder="Title"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="map_type" class="col-sm-2 control-label">Size</label>
+
+                <div class="col-sm-10">
+                    <input type="number" min="0" step="1" id="size-value" ng-model="size">
+                    <select ng-model="unit" id="size-value-units" ng-options="u.name for u in units">
+
+                    </select>
+                    <select name="scale" id="scale"
+                            ng-model="scale"
+                            ng-options="s.name for s in scale_options">
+                    </select>
+
+                    <p>
+                        <small>(Height and width)</small>
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="template" class="col-sm-2 control-label">Templates</label>
+
+                <div class="col-sm-10">
+                    <select name="template" id="template"
+                            ng-model="template"
+                            ng-options="t.title for t in templates"
+                            >
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="show_bt()">
+                <label for="building" class="col-sm-2 control-label">Building Type</label>
+
+                <div class="col-sm-10">
+                    <select name="map_type" id="building"
+                            ng-model="building_type"
+                            ng-options="bt.name for bt in building_types"
+                            >
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="terrain" class="col-sm-2 control-label">Terrain</label>
+
+                <div class="col-sm-10">
+                    <select name="map_type" id="terrain"
+                            ng-model="terrain"
+                            ng-options="t.name for t in terrains"
+                            >
+                    </select>
+                </div>
+                <p><small>This is the starting terrain - you will have a chance to add more. </small></p>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-primary" ng-click="save_map()">Create Map</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

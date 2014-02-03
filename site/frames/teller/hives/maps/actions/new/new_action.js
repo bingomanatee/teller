@@ -18,19 +18,18 @@ module.exports = {
     },
 
     on_post_input: function (ctx, done) {
-        ctx.map = _.pick(ctx, 'title', 'name', 'summary', 'story', 'template');
-        ctx.map.size = parseInt(ctx.size);
-
-        console.log('map: %s', util.inspect(ctx.map));
+        ctx.map = _.pick(ctx, 'title', 'name', 'summary', 'story', 'map_type', 'size', 'template');
         this.model('teller_story').get_story_in_action(ctx, done);
     },
 
     on_post_process: function (ctx, done) {
+        console.log('putting %s', util.inspect(ctx.map));
         this.model('teller_map').put(ctx.map, function (err, map) {
             if (err) {
+                console.log('error from put: %s', util.inspect(err));
                 done(err);
             } else if (map) {
-                ctx.$go('/stories/' + ctx.story._id + '/maps/' + map._id + '/edit');
+                ctx.$send(map.toJSON(), done);
             } else {
                 done('Cannot make map');
             }

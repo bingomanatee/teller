@@ -1,0 +1,6 @@
+{
+    "static": {
+        "js":  "/js/teller/maps",
+        "css": "/css/teller/maps"
+    }
+}

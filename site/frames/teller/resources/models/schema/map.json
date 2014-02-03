@@ -1,18 +1,17 @@
 {
-    "name": {
-        "type": "string",
-        "required": true
-    },
-    "title": {
-        "type": "string",
+    "title":    {
+        "type":     "string",
         "required": "true"
     },
-    "size": {
-        "type": "number",
-        "min": 10,
+    "template": {
+        "type": "string"
+    },
+    "size":     {
+        "type":     "number",
+        "min":      10,
         "required": true
     },
-    "story": "objectId",
-    "summary": "string"
+    "story":    "objectId",
+    "summary":  "string"
 
 }

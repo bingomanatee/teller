@@ -1,11 +1,11 @@
 {
     "routes": {
-        "get": "/stories/:story/maps/:map/edit"
+        "get": "/stories/:story/maps/:map"
     },
 
     "css": [
         {
-            "url":     "/css/teller/maps/edit/edit.css",
+            "url":     "/css/teller/maps/view/edit.css",
             "context": "head"
         },
         {
@@ -136,7 +136,7 @@
         }
         ,
         {
-            "url":      "/js/teller/maps/edit/edit.js",
+            "url":      "/js/teller/maps/view/view.js",
             "context":  "head",
             "name":     "map_edit",
             "requires": ["teller-app", "map", "town", "building", "appearance", "slider", "road"]
@@ -144,7 +144,7 @@
     ],
 
     "static": {
-        "js":  "/js/teller/maps/edit",
-        "css": "/css/teller/maps/edit"
+        "js":  "/js/teller/maps/view",
+        "css": "/css/teller/maps/view"
     }
 }

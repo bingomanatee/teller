@@ -10,10 +10,11 @@ bc.add({title: 'Edit', meta: {active: true} });
     var map_data = <%- JSON.stringify(map.toJSON()) %>;
 </script>
 
+<h1>Edit Map &quot;<%= map.title %>&quot; (<%= map.template %>) for Story &quot;<%= story.title %>&quot;</h1>
+
 <div ng-app="teller_app">
     <div ng-controller="teller_map_edit">
 
-        <h1>Edit Map &quot;<%= map.title %>&quot; for Story &quot;<%= story.title %>&quot;</h1>
 
         <p><b>Background:</b> {{ background.name }}</p>
 

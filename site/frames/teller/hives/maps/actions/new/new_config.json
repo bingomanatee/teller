@@ -1,27 +1,71 @@
 {
     "routes": {
-        "get": "/stories/:story/maps/0/new",
+        "get":  "/stories/:story/maps/0/new",
         "post": "/stories/:story/maps/0/new"
     },
 
     "javascript": [
         {
-            "url": "/js/vendor/create.js",
-            "context": "foot",
-            "defer": true
+            "url":     "/js/teller/vendor/underscore.1.5.2.min.js",
+            "context": "head",
+            "name": "underscore"
         },
         {
-            "url": "/js/teller/easel-mapper.js",
-            "context": "foot",
-            "defer": true
-        },
+            "url":     "/js/teller/vendor/angular-1.2.10/angular.min.js",
+            "context": "head",
+            "name":    "angular"
+        }
+        ,
         {
-            "url": "/js/teller/maps/new/new.js",
-            "context": "foot",
-            "defer": true
+            "url":      "/js/teller/vendor/angular/ui-bootstrap-tpls-0.10.0.min.js",
+            "context":  "head",
+            "requires": ["angular"],
+            "name":     "ui-bootstrap"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/data/building_types.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "building_types"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/data/scale_options.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "scale_options"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/data/templates.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "templates"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/data/terrains.js",
+            "context":  "head",
+            "requires": ["angular", "teller-app"],
+            "name":     "terrains"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/new/new_map.js",
+            "context":  "head",
+            "requires": ["teller-app", "scale_options", "building_types", "underscore", "templates", "terrains"],
+            "name":     "new_controller"
+        }
+        ,
+        {
+            "url":      "/js/teller/maps/app.js",
+            "context":  "head",
+            "requires": ["angular", "ui-bootstrap"],
+            "name":     "teller-app"
         }
     ],
-    "static": {
+    "static":     {
         "js": "/js/teller/maps/new"
     }
 }

@@ -9,11 +9,19 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "hive-model-mongoose": "0.0.2",
+    "hive-model-mongoose": "*",
     "express": "~3.4.8",
     "hive-menu": "0.0.1",
     "q": "~1.0.0",
     "ejs": "~0.8.5",
-    "hive-model": "~0.1.2"
+    "hive-model": "~0.1.2",
+    "mongoose": "~3.8.6",
+    "passport": "~0.2.0",
+    "hive-mvc": "~0.1.1-a",
+    "moment": "~2.5.1",
+    "hive-loader": "0.0.2",
+    "hive-component": "0.0.1-a",
+    "passport-facebook": "~1.0.2",
+    "passport-twitter": "~1.0.2"
   }
 }

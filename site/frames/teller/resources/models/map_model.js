@@ -44,7 +44,6 @@ module.exports = function (apiary, callback) {
         var deferred = Q.defer();
 
         model.get(id, function (err, map) {
-            console.log('got map ... %s', map);
             if (err) {
                 deferred.reject(err);
             } else if (map) {
@@ -55,7 +54,6 @@ module.exports = function (apiary, callback) {
         });
 
         deferred.promise.then(function (map) {
-            console.log('promise fulfilled');
             ctx.$out.set('map', map);
             ctx.map = map;
             success ? success(map) : done();
