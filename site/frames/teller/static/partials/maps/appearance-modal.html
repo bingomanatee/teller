@@ -6,22 +6,31 @@
 
         <div class="form-horizontal" role="form">
             <div class="form-group">
-                <label for="map-background" class="col-sm-2 control-label">Ground Type</label>
+                <label for="map-background" class="col-sm-3 control-label">Ground Type</label>
 
-                <div class="col-sm-10">
-                    <select ng-model="selected.background" id="map-background"
+                <div class="col-sm-9">
+                    <select ng-model="selected.background" id="map-background" class="form-control"
                             ng-options="bg as bg.name for bg in bg_options">
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="map-scale" class="col-sm-2 control-label">Base Scale</label>
+                <label for="map-scale" class="col-sm-3 control-label">Map Size</label>
 
-                <div class="col-sm-10">
-                    <select ng-model="selected.scale" id="map-scale"
+                <div class="col-sm-9">
+                    <select ng-model="selected.scale" id="map-scale" class="form-control"
                             ng-options="scale as scale.name for scale in scale_options">
                     </select>
                     <p>width of viewing area at 1:1 scale</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="map-scale" class="col-sm-3 control-label">Elevation Resolution</label>
+
+                <div class="col-sm-9">
+                    <input type="number" min="1" ng-model="selected.elevation_resolution"
+                           class="form-control" />
+                    <p>Size of elevation measurements</p>
                 </div>
             </div>
         </div>

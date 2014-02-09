@@ -2,7 +2,7 @@
 
     var app = angular.module('teller_app');
 
-    app.controller('teller_map_edit', function ($scope, $window, $modal, $location, appearance, map, road, town, building) {
+    app.controller('teller_map_edit', function ($scope, $window, $modal, $location, appearance, map, road, town, building, MAP_SIZE) {
 
         var add_options = [
             {
@@ -23,7 +23,7 @@
         $scope.scale = appearance.scale_options[0];
         $scope.add_options = add_options;
         map.$scope = $scope;
-        map.init_map($scope.scale);
+        map.init_map(MAP_SIZE);
 
         // EASEL_MAP.grid_layer('back grid', map, {grid_params:{line_color: 'rgba(0, 204,0,0.5)'}});
 

@@ -34,6 +34,9 @@
             },
 
             init_map: function (size) {
+                if (size.hasOwnProperty('value')){
+                    size = size.value;
+                }
                 if (map_info.stage){
                     map_info.stage.removeAllChildren();
                     map_info.stage.clear();
@@ -42,10 +45,10 @@
                 canvas = $('canvas#map')[0];
                 map_info.size = size.value;
                 map_info.map = new EASEL_MAP.Map({
-                    left:   Math.floor(size.value / -2),
-                    right:  Math.ceil(size.value / 2),
-                    top:    Math.floor(size.value / -2),
-                    bottom: Math.ceil(size.value / 2)
+                    left:   Math.floor(size / -2),
+                    right:  Math.ceil(size / 2),
+                    top:    Math.floor(size / -2),
+                    bottom: Math.ceil(size / 2)
                 });
 
                 appearance.add_ground_layer(map_info);

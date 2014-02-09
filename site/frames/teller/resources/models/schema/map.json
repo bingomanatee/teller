@@ -1,17 +1,24 @@
 {
-    "title":    {
+    "title":                {
         "type":     "string",
         "required": "true"
     },
-    "template": {
+    "template":             {
         "type": "string"
     },
-    "size":     {
+    "elevation_resolution": {
+        "type": "number",
+        "min":  1
+    },
+    "size":                 {
         "type":     "number",
         "min":      10,
         "required": true
     },
-    "story":    "objectId",
-    "summary":  "string"
-
+    "story":                {
+        "type": "objectId"
+    },
+    "summary":              {
+        "type": "string"
+    }
 }

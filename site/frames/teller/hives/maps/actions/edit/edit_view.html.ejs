@@ -8,6 +8,8 @@ bc.add({title: 'Edit', meta: {active: true} });
 
 <script language="javascript">
     var map_data = <%- JSON.stringify(map.toJSON()) %>;
+    // setting constant
+    angular.module('teller_app').constant('MAP_SIZE', map_data.size);
 </script>
 
 <h1>Edit Map &quot;<%= map.title %>&quot; (<%= map.template %>) for Story &quot;<%= story.title %>&quot;</h1>
