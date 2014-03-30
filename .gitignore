@@ -11,3 +11,23 @@
 /site/passport_config.json
 
 /site/frames/teller/static/js/vendor/angular-1.2.10/docs/
+
+*.unity.meta
+
+.*\.meta
+
+*.meta
+
+*.csproj
+
+/unity/map_editor/Assembly-UnityScript-firstpass-vs.unityproj
+/unity/map_editor/Assembly-UnityScript-firstpass.unityproj
+/unity/map_editor/Assembly-UnityScript-vs.unityproj
+/unity/map_editor/Assembly-UnityScript.unityproj
+
+/unity/map_editor/Temp/
+
+/unity/map_editor/Library/
+
+/unity/map_editor/map_editor-csharp.sln
+/unity/map_editor/map_editor.sln

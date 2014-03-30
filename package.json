@@ -22,6 +22,9 @@
     "hive-loader": "0.0.2",
     "hive-component": "0.0.1-a",
     "passport-facebook": "~1.0.2",
-    "passport-twitter": "~1.0.2"
+    "passport-twitter": "~1.0.2",
+    "underscore": "^1.6.0",
+    "gate": "^0.3.0",
+    "order-by-prereq": "0.0.2"
   }
 }
