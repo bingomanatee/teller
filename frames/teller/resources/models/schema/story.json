@@ -1,20 +1,15 @@
 {
-    "name": {
-        "type": "string",
-        "required": true,
-        "unique": true
-    },
-    "title": {
-        "type": "string",
-        "required": true
-    },
-    "summary": {
-        "type": "string"
-    },
-    "start_chapter": {
-        "type": "objectId"
-    },
-    "creator": {
-        "type": "objectId"
-    }
+  "title": {
+    "type": "string",
+    "required": true
+  },
+  "summary": {
+    "type": "string"
+  },
+  "start_chapter": {
+    "type": "objectId"
+  },
+  "creator": {
+    "type": "objectId"
+  }
 }

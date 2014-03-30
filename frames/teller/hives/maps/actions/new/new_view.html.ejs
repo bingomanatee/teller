@@ -1,15 +1,18 @@
 <%
 var bc = helpers.teller_breadcrumb();
 bc.add({title: 'Maps', link: '/stories/' + story._id + '/maps'});
-bc.add({title: 'New', meta: {active: true} } );
+bc.add({title: 'New', meta: {active: true} });
 %>
 <%- bc %>
 
 <script language="javascript">
     (function () {
-
+        var map_data = <%- JSON.stringify(map.toJSON()) %>;
         var app = angular.module('teller_app');
-         app.constant('story', <%- JSON.stringify(story) %>);
+        // setting constant
+        app.constant('MAP_SIZE', map_data.size);
+        app.constant('map_data', map_data);
+        app.constant('story', <%- JSON.stringify(story) %>);
     })();
 </script>
 
@@ -23,8 +26,7 @@ bc.add({title: 'New', meta: {active: true} } );
 
                 <div class="col-sm-10">
                     <input type="text" name="title" required min="4" class="form-control"
-                           ng-model="title" id="title" placeholder="Title"
-                           required>
+                           ng-model="title" id="title" placeholder="Title" required>
                 </div>
             </div>
 
@@ -78,11 +80,12 @@ bc.add({title: 'New', meta: {active: true} } );
                 <div class="col-sm-10">
                     <select name="map_type" id="terrain"
                             ng-model="terrain"
-                            ng-options="t.name for t in terrains"
-                            >
+                            ng-options="t.name for t in terrains">
                     </select>
                 </div>
-                <p><small>This is the starting terrain - you will have a chance to add more. </small></p>
+                <p>
+                    <small>This is the starting terrain - you will have a chance to add more.</small>
+                </p>
             </div>
 
             <div class="form-group">

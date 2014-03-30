@@ -13,7 +13,7 @@ module.exports = {
     },
 
     on_post_input: function (ctx, done) {
-        ctx.story = _.pick(ctx, 'title', 'name', 'summary');
+        ctx.story = _.pick(ctx, 'title',  'summary');
         ctx.story.creator = ctx.$session('member')._id;
         done();
     },

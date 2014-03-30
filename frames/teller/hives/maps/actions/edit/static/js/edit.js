@@ -4,6 +4,8 @@
 
     app.controller('teller_map_edit', function ($scope, $window, $modal, $location, appearance, map, road, town, building, MAP_SIZE) {
 
+
+
         var add_options = [
             {
                 name: 'road'
@@ -26,6 +28,7 @@
         map.init_map(MAP_SIZE);
 
         // EASEL_MAP.grid_layer('back grid', map, {grid_params:{line_color: 'rgba(0, 204,0,0.5)'}});
+
 
         $scope.add_item = function (type) {
             switch (type) {

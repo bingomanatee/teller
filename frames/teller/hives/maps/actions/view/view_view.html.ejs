@@ -2,12 +2,18 @@
 var bc = helpers.teller_breadcrumb();
 bc.add({title: 'Maps', link: '/stories/' + story._id + '/maps'});
 bc.add({title: map.title, link: '/stories/' + story._id + '/maps/' + map._id});
-bc.add({title: 'Edit', meta: {active: true} });
+bc.add({title: 'View', meta: {active: true} });
 %>
 <%- bc %>
 
+
 <script language="javascript">
     var map_data = <%- JSON.stringify(map.toJSON()) %>;
+    // setting constant
+    angular.module('teller_app')
+        .constant('STORY_ID', '<%= map.story %>')
+        .constant('MAP_ID', '<%= map._id%>')
+        .constant('MAP_SIZE', map_data.size);
 </script>
 
 <h1>Map &quot;<%= map.title %>&quot; (<%= map.template %>) for Story &quot;<%= story.title %>&quot;</h1>
@@ -19,9 +25,8 @@ bc.add({title: 'Edit', meta: {active: true} });
 
         <div ng-form class="form-inline pull-right" style="width: 20em" ng-show="show_search_menu()">
             <div class="form-group">
-                <input type="search" class="form-control input-smal" ng-model="search_text" placeholder="search"/>
+                <button ng-click="edit_map()" class="btn btn-primary">Edit</button>
             </div>
-            <div class="form-group" ng-click="search_text=''"><b>&times;</b></div>
         </div>
         <div class="map-scale-group pull-left">
             <div class="range-item">

@@ -133,10 +133,10 @@
                                     var center = EASEL_MAP.util.draw_hex.placement(row, col, cell_radius);
                                     var shade = heightmap.color((center.center_x + map.width() / 2) / MAP_GREY_RATIO, (center.center_y + map.height() / 2) / MAP_GREY_RATIO);
 
-                                    console.log('shade: ', shade, ' for point ', (center.center_x ) / MAP_GREY_RATIO,
-                                        (center.center_y ) / MAP_GREY_RATIO);
+                                  /*  console.log('shade: ', shade, ' for point ', (center.center_x ) / MAP_GREY_RATIO,
+                                        (center.center_y ) / MAP_GREY_RATIO);*/
                                     var g = Math.max(0, Math.min(shade/255.0, 1));
-                                    console.log('shade f: ', shade);
+                               //     console.log('shade f: ', shade);
                                     EASEL_MAP.util.draw_hex.draw(row, col, radius, 'rgb(' + shade + ',255,255)', hex_shape);
                                     tile.container().addChild(hex_shape);
                                 });
