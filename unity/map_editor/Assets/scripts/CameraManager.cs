@@ -18,28 +18,44 @@ public class CameraManager : MonoBehaviour
 		void Update ()
 		{
 				if (manager.created) {
-						Terrain ter = manager.map.GetTerrain ();
-						float y = gameObject.transform.position.y;
+
+						switch (manager.viewMode) {
+
+						case Manager.ViewModes.FirstPerson: 
+								Terrain ter = manager.map.GetTerrain ();
+								float y = gameObject.transform.position.y;
 				
-						float terrainHeight = 0;
-						float targetHeight = terrainHeight + FLOAT_HEIGHT;
+								float terrainHeight = 0;
 
-						for (int rangex = -20; rangex <= 20; rangex += 5) {
-								for (int rangey = -20; rangey <= 20; rangey += 5) {
-										terrainHeight = Mathf.Max (terrainHeight, ter.terrainData.GetHeight ((int)transform.position.x + rangex, (int)transform.position.y + rangey));
+								for (int rangex = -20; rangex <= 20; rangex += 5) {
+										for (int rangey = -20; rangey <= 20; rangey += 5) {
+												terrainHeight = Mathf.Max (terrainHeight, ter.terrainData.GetHeight ((int)transform.position.x + rangex, (int)transform.position.y + rangey));
+										}
 								}
-						}
-						if (targetHeight < y) {
-								pushToTerrain -= 0.01f;
-						} else {
-								pushToTerrain += 0.03f;
-						}
+								terrainHeight += FLOAT_HEIGHT;
 
-						float distRatio = Mathf.Abs (targetHeight - y) / 5.0f;
-						pushToTerrain *= Mathf.Clamp (distRatio, 0f, 0.99f);
+								float targetHeight = terrainHeight;
 
-			y = Mathf.Max (y + pushToTerrain, terrainHeight + FLOAT_MIN);
-						gameObject.transform.position = new Vector3 (gameObject.transform.position.x, y, gameObject.transform.position.z);
+								if (targetHeight < y) {
+										pushToTerrain -= 0.01f;
+								} else {
+										pushToTerrain += 0.03f;
+								}
+
+								float distRatio = Mathf.Abs (targetHeight - y) / 5.0f;
+								pushToTerrain *= Mathf.Clamp (distRatio, 0f, 0.99f);
+
+								y = Mathf.Max (y + pushToTerrain, terrainHeight + FLOAT_MIN);
+								gameObject.transform.position = new Vector3 (gameObject.transform.position.x, y, gameObject.transform.position.z);
+
+								transform.localEulerAngles = new Vector3 (0, 0, 0);
+								break;
+
+						case Manager.ViewModes.TopDown: 
+				
+								transform.localEulerAngles = new Vector3 (90, 0, 0);
+								break;
+						}
 				}
 		}
 }

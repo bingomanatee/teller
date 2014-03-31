@@ -29,6 +29,13 @@ public class Manager : MonoBehaviour
 				new Units ("Meters(m)", "m", 1),
 				new Units ("Kilometers(km)", "km", 1000)
 		};
+		public enum ViewModes
+		{
+				TopDown,
+				FirstPerson
+		}
+		
+		public ViewModes viewMode = ViewModes.FirstPerson;
 
 		public void ModeChange (string pMode)
 		{
@@ -87,7 +94,7 @@ public class Manager : MonoBehaviour
 				map.Create (MeterWidth (), MeterDepth ());
 				map.SetTextures (((Terrain)baseTerrain.GetComponent ("Terrain")).terrainData.splatPrototypes);
 				created = true;
-			//	ProxyTerrainToolkit ().PerlinGenerator (5, 0.75f, 3, 1.0f);
+				//	ProxyTerrainToolkit ().PerlinGenerator (5, 0.75f, 3, 1.0f);
 				//map.SetHeights (ProxyTerrain ().terrainData.GetHeights (0, 0, Map.TERRAIN_HEIGHTMAP_RES, Map.TERRAIN_HEIGHTMAP_RES));
 				
 		}

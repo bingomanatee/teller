@@ -2,14 +2,23 @@
 using System.Collections;
 using System;
 
-public class toolbar : MonoBehaviour
+public class Toolbar : MonoBehaviour
 {
 	
 		public Manager manager;
 		private int toolbarInt = 0;
 		private string[] toolbarStrings = {"Move", "Sculpt", "Paint"};
+		private enum Windows
+		{
+				None,
+				Building,
+				Settings,
+				View,
+		} 
+		private Windows openWindow = Windows.None;
 		private bool showCreateBuildingWindow = false;
 		private bool showSettingsWindow = false;
+		private bool showViewWindow = false;
 		private string mapDepthString;
 		private float mapDepth;
 		private string mapWidthString;
@@ -39,30 +48,74 @@ public class toolbar : MonoBehaviour
 
 		void OnGUI ()
 		{
+
+				switch (openWindow) {
+
+				case Windows.View:
+						GUILayout.Window (3, ScreenSubRect (10), AddViewContent, "View Mode", GUILayout.MinHeight (100));
+						break;
+
+				case Windows.None:
+						DrawToolbar ();
+						break;
+
+				case Windows.Building:
+						GUILayout.Window (1, ScreenSubRect (10), AddBuildingContent, "Building", GUILayout.MinHeight (100));
+						break;
+
+				case Windows.Settings:
+						GUILayout.Window (2, ScreenSubRect (10), AddSettingsContent, "Map Settings", GUILayout.MinHeight (100));
+						break;
+				}
+
+		}
+
+		void AddViewContent (int id)
+		{
+		
+				GUILayout.BeginVertical ();
+
+				GUILayout.Space (10);
+				GUILayout.BeginHorizontal ();
+				if (GUILayout.Button (manager.viewMode == Manager.ViewModes.TopDown ? "[Top Down]}" : "Top Down")) {
+						manager.viewMode = Manager.ViewModes.TopDown;
+						openWindow = Windows.None;
+				}
+				if (GUILayout.Button (manager.viewMode == Manager.ViewModes.FirstPerson ? "[First Person]}" : "First Person")) {
+						manager.viewMode = Manager.ViewModes.FirstPerson;
+						openWindow = Windows.None;
+				}
+
+				if (GUILayout.Button ("Cancel")) {
+						openWindow = Windows.None;
+				}
+
+				GUILayout.EndHorizontal ();
+
+				GUILayout.EndVertical ();
+		}
+	
+		void DrawToolbar ()
+		{
 				GUILayout.BeginArea (new Rect (0, 0, Screen.width, 40));
 				GUILayout.BeginHorizontal ();
 				manager.mode = toolbarStrings [GUILayout.Toolbar (ModeInt (), toolbarStrings)].ToLower ();
 				if (GUILayout.Button ("Settings")) {
-						showSettingsWindow = true;
+						initMapSettings ();
+						openWindow = Windows.Settings;
 				}
 				if (GUILayout.Button ("Add Building")) {
-						showCreateBuildingWindow = true;
+						openWindow = Windows.Building;
+				}
+		
+				if (GUILayout.Button ("View")) {
+						openWindow = Windows.View;
 				}
 				GUILayout.EndHorizontal ();
 				GUILayout.EndArea ();
 
-				if (showCreateBuildingWindow) {
-						showing = "building";
-						GUILayout.Window (1, ScreenSubRect (10), AddBuildingContent, "Building");
-				} else if (showSettingsWindow) {
-						if (showing != "window") {
-								initMapSettings ();
-								showing = "window";
-						}
-						GUILayout.Window (2, ScreenSubRect (10), AddSettingsContent, "Map Settings", GUILayout.MinHeight (100));
-				}
 		}
-
+	
 		Rect ScreenSubRect (int indent)
 		{
 				return new Rect (indent, indent, Screen.width - 2 * indent, 0); // Screen.height - 2 * indent);
@@ -127,18 +180,15 @@ public class toolbar : MonoBehaviour
 				GUILayout.BeginHorizontal ();
 				if (true || !manager.created) {
 						if (GUILayout.Button ("Create")) {
-								showing = "";
-								showSettingsWindow = false;
+								openWindow = Windows.None;
 								manager.Create ();
 						}
 						if (GUILayout.Button ("Cancel")) {
-								showing = "";
-								showSettingsWindow = false;
+								openWindow = Windows.None;
 						}
 				} else {
 						if (GUILayout.Button ("Done")) {
-								showing = "";
-								showSettingsWindow = false;
+								openWindow = Windows.None;
 						}
 				}
 				GUILayout.EndHorizontal ();
@@ -157,8 +207,7 @@ public class toolbar : MonoBehaviour
 				GUILayout.EndHorizontal ();
 
 				if (GUILayout.Button ("Create")) {
-						showing = "";
-						showCreateBuildingWindow = false;
+						openWindow = Windows.None;
 				}
 				GUILayout.EndVertical ();
 		}
