@@ -59,13 +59,13 @@ public class toolbar : MonoBehaviour
 								initMapSettings ();
 								showing = "window";
 						}
-						GUILayout.Window (2, ScreenSubRect (10), AddSettingsContent, "Map Settings", GUILayout.MinHeight(100));
+						GUILayout.Window (2, ScreenSubRect (10), AddSettingsContent, "Map Settings", GUILayout.MinHeight (100));
 				}
 		}
 
 		Rect ScreenSubRect (int indent)
 		{
-		return new Rect (indent, indent, Screen.width - 2 * indent, 0); // Screen.height - 2 * indent);
+				return new Rect (indent, indent, Screen.width - 2 * indent, 0); // Screen.height - 2 * indent);
 		}
 	
 		void AddSettingsContent (int wID)
@@ -78,33 +78,33 @@ public class toolbar : MonoBehaviour
 				manager.map.name = GUILayout.TextField (manager.map.name);
 				GUILayout.EndHorizontal ();
 
-				if (!manager.created) {
+				if (true || !manager.created) {
 						GUILayout.BeginHorizontal ();
+						GUILayout.BeginVertical ();
 						GUILayout.Label ("Width(lon)", GUILayout.Width (100));
 						mapWidthString = GUILayout.TextField (mapWidthString);
 						if (float.TryParse (mapWidthString, out mapWidth) && mapWidth >= 1) {
 								manager.width = mapWidth;
 						}
-						GUILayout.EndHorizontal ();
+						GUILayout.EndVertical ();
 			
-						GUILayout.BeginHorizontal ();
+						GUILayout.BeginVertical ();
 						GUILayout.Label ("Depth(lat)", GUILayout.Width (100));
 						mapDepthString = GUILayout.TextField (mapDepthString);
 						if (float.TryParse (mapDepthString, out mapDepth) && mapDepth >= 1) {
 								manager.depth = mapDepth;
 						}
-						GUILayout.EndHorizontal ();
+						GUILayout.EndVertical ();
 			
-						GUILayout.BeginHorizontal ();
+						GUILayout.BeginVertical ();
 						GUILayout.Label ("units", GUILayout.Width (100));
-						if (GUILayout.Button (manager.UnitLabel())) {
+						if (GUILayout.Button (manager.UnitData ().label)) {
 								showUnits = true;
 						}
-						GUILayout.EndHorizontal ();
+						GUILayout.EndVertical ();
 			
 			
 						if (showUnits) {
-								GUILayout.BeginHorizontal ();
 								GUILayout.BeginVertical ();
 				
 								foreach (Units unit in manager.units) {
@@ -117,17 +117,19 @@ public class toolbar : MonoBehaviour
 										showUnits = false;
 								}
 								GUILayout.EndVertical ();
-								GUILayout.EndVertical ();
 						}
-		
+			
+						GUILayout.EndHorizontal ();
 				}
 		
+				GUILayout.Space (10);
+
 				GUILayout.BeginHorizontal ();
-				if (!manager.created) {
+				if (true || !manager.created) {
 						if (GUILayout.Button ("Create")) {
 								showing = "";
-								manager.Create ();
 								showSettingsWindow = false;
+								manager.Create ();
 						}
 						if (GUILayout.Button ("Cancel")) {
 								showing = "";
